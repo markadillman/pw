@@ -187,9 +187,14 @@ var insertDocumentNoCallback = function(db,insertDoc,filter,res){
 var findDocument = function(db,query,req,res,callback,initCoords,setname){
 	var collection = db.collection('tiles');
 	console.log(util.inspect(query));
-	//exclude the passwords from this function
-	var queryExclusions = { pw : 0 };
-	var newQuery = {query[0],queryExclusions[0]};
+	//remove the query's key so compound object is right for MongoDB query
+	var queryVals = Object.values(query);
+	var narrowedQuery = queryVals[0];
+	console.log('query vals');
+	console.log(util.inspect(queryVals));
+	console.log('narrowed query');
+	console.log(util.inspect(narrowedQuery));
+	var newQuery = {narrowedQuery,{pw:0}}};
 	console.log("new query:");
 	console.log(util.inspect(newQuery));
 	collection.find(newQuery).toArray(function(err,docs){
