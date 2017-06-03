@@ -161,10 +161,27 @@ var insertDocument = function(db,insertDoc,filter,res,callback){
 	});
 }
 
+
 var insertCallback = function(db,res){
 	console.log("in callback");
 	db.close();
 	res.sendStatus(200);
+}
+
+var insertDocumentNoCallback = function(db,insertDoc,filter,res){
+	var collection = db.collection('tiles');
+	//insert the document
+	console.log("About to insert:");
+	console.log(util.inspect(insertDoc));
+	collection.update(filter,insertDoc,{upsert:true},function(err,result){
+		if (err === null){
+			console.log("Inserted tile into database");
+			console.log(result);
+		}
+		else {
+			console.log(err);
+		}
+	});
 }
 
 var findDocument = function(db,query,req,res,callback,initCoords,setname){
@@ -448,10 +465,13 @@ var editCheckCallback = function(db,req,res,docs,initCoords){
 		newTile = {};
 		newTile.xcoord = initCoords.x;
 		newTile.ycoord = initCoords.y;
+		var coords = {};
+		coords.xcoord = initCoords.x;
+		coords.ycoord = initCoords.y;
 		newTile.pw = '';
 		newTile.isBeingEdited = true;
 		//add it to the db
-		inserDocument(db,);
+		insertDocumentNoCallback(db,newTile,coords,res);
 		res.status(224).send(JSON.stringify(payload));
 	}
 	//if previously edited, check for a password. If password is not blank, prompt
