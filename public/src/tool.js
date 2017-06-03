@@ -1432,7 +1432,7 @@ function postRequest(url,payload,onload,error,passwordSubmit){
 	request.onload = function(){
 		if (request.readyState === 4){
 			    //200: General OK ;       224: Tile not previously edited
-			if (request.status === 200 || request.status --- 224 ||
+			if (request.status === 200 || request.status === 224 ||
 				//233: Tile has password; 242: Tile being edited currently
 			    request.status === 233 || request.status === 242 ||
 			    //299: Password is incorrect:
