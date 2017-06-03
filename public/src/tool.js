@@ -918,10 +918,10 @@ function passwordResponse(request,pw){
 		if (verboseDebugging){
 			console.log("Password incorrect.");
 		}
-		var repromptPassword = "Password incorrect. " + body.message;
+		var repromptPassword = "Password incorrect " + body.message;
 		var initCoords = {};
-		var initCoords['xcoord'] = body.xcoord;
-		var initCoords['ycoord'] = body.ycoord;
+		initCoords.xcoord = body.xcoord;
+		initCoords.ycoord = body.ycoord;
 		//
 		displayMessage(repromptPassword,passwordSubmit,doTileExit,true,true,initCoords);
 	}
