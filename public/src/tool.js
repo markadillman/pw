@@ -848,6 +848,11 @@ function doAvatarEdit(myAvatarString) {
 //callback function should return status code indicating if there is a pw
 //or not on an editable tile, or if tile is uneditable.
 function tileEditRequest(xTile,yTile){
+	if (verboseDebugging){
+		console.log("x,y");
+		console.log(xTile);
+		console.log(yTile);
+	}
 	var payload = {};
 	payload.xcoord = xTile;
 	payload.ycoord = yTile;
@@ -1416,15 +1421,28 @@ function generateSurroundingsPayload(){
 }
 
 //KEEP: HELPER FUNCTION : args url to post, payload as Object, onload function, error function
-function postRequest(url,payload,onload,error){
+//passwordSubmit is optional boolean. If there is a field there, it will pass the value as arg
+//to the callback.
+function postRequest(url,payload,onload,error,passwordSubmit){
+	var reqStatus;
 	var request = new XMLHttpRequest();
 	request.open("POST",url,true);
 	request.setRequestHeader('Content-Type','application/json; charset=UTF-8');
 	//request.responseType = "json";
 	request.onload = function(){
 		if (request.readyState === 4){
-			if (request.status === 200 || request.status === 242) {
-				onload(request);
+			    //200: General OK ;       224: Tile not previously edited
+			if (request.status === 200 || request.status --- 224 ||
+				//233: Tile has password; 242: Tile being edited currently
+			    request.status === 233 || request.status === 242 ||
+			    //299: Password is incorrect:
+			    request.status === 299) {
+				if (passwordSubmit){
+					onload(request,passwordSubmit);
+				}
+				else {
+					onload(request);
+				}
 			} else {
 				console.error(request.statusText);
 				error(request);
@@ -1435,12 +1453,8 @@ function postRequest(url,payload,onload,error){
 		error(request);
 	};
 	request.send(JSON.stringify(payload));
-	
-	// debug message
-	if (debugging) {
-		console.log("Posted a request to the server.");
-	}
 }
+
 //KEEP: HELPER FUNCTION: request error helper
 function postOnError(request){
 	
