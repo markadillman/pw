@@ -187,15 +187,10 @@ var insertDocumentNoCallback = function(db,insertDoc,filter,res){
 var findDocument = function(db,query,req,res,callback,initCoords,setname){
 	var collection = db.collection('tiles');
 	console.log(util.inspect(query));
-	//remove the query's key so compound object is right for MongoDB query
-	var queryVals = Object.values(query);
-	var narrowedQuery = queryVals[0];
-	console.log('query vals');
-	console.log(util.inspect(queryVals));
-	console.log('narrowed query');
-	console.log(util.inspect(narrowedQuery));
 	var excludedFields = {pw : 0}
-	var newQuery = {narrowedQuery,excludedFields};
+	var newQueryString = "{ " + JSON.stringify(query) + " , " + JSON.stringify(excludedFields) + " }";
+	console.log("new query string");
+	var newQuery = JSON.parse(newQueryString);
 	console.log("new query:");
 	console.log(util.inspect(newQuery));
 	collection.find(newQuery).toArray(function(err,docs){
