@@ -187,13 +187,13 @@ var insertDocumentNoCallback = function(db,insertDoc,filter,res){
 var findDocument = function(db,query,req,res,callback,initCoords,setname){
 	var collection = db.collection('tiles');
 	console.log(util.inspect(query));
-	var excludedFields = {pw : 0}
-	var newQueryString = "{ " + JSON.stringify(query) + " , " + JSON.stringify(excludedFields) + " }";
-	console.log("new query string");
-	var newQuery = JSON.parse(newQueryString);
-	console.log("new query:");
-	console.log(util.inspect(newQuery));
-	collection.find(newQuery).toArray(function(err,docs){
+	var fields = {};
+	fields.xcoord = 1;
+	fields.ycoord = 1;
+	fields.svg = 1;
+	fields.isBeingEdited = 1;
+	//fields.graphic = 1;
+	collection.find(newQuery,fields).toArray(function(err,docs){
 		//if error, pop
 		assert.equal(err,null);
 		//console.log("Found following records:");
