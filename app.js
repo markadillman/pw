@@ -189,7 +189,7 @@ var findDocument = function(db,query,req,res,callback,initCoords,setname){
 	console.log(util.inspect(query));
 	//exclude the passwords from this function
 	var queryExclusions = { pw : 0 };
-	var newQuery = {query,queryExclusions};
+	var newQuery = {query[0],queryExclusions[0]};
 	console.log("new query:");
 	console.log(util.inspect(newQuery));
 	collection.find(newQuery).toArray(function(err,docs){
