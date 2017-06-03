@@ -565,8 +565,8 @@ Data structure is:
 */
 app.post('/editcheck',function(req,res){
 	var initCoords = {};
-	initCoords.x = req.body.x;
-	initCoords.y = req.body.y;
+	initCoords.x = req.body.xcoord;
+	initCoords.y = req.body.ycoord;
 	MongoClient.connect(dbUrl,function(err,db){
 		//test for errors, pop out if there are errors present
 		assert.equal(null,err);
