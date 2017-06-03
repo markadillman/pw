@@ -942,19 +942,25 @@ function passwordResponse(request,pw){
 //this last helper function condenses transition between password and setting up art tool
 //which allows to be neatly called in password success callbacks at various stages.
 function passwordApproved(xTile,yTile,password){
+	// clear out everything from drawing area just in case
+	svgClearAll();
 
 	svgLoadFromServer(xTile, yTile, password);
 	doLoadSurroundingsFromServer();
 	
+	
 	// set the mode
 	previousMode = mode;
 	mode = artMode;
+	avatarEditing = false;
 
 	// display correct divs and header
+	maskingToggleDiv.style.display = "block";
 	pageHeader.innerHTML = drawingHeader;
-	avatarDisplayDiv.style.display = "none";
-	displayDiv.style.display = "block";
 	showDiv(mode);
+
+	// set the submit/done button's function
+	document.getElementById("artSubmitBtn").onclick = submitTileButton;
 
 	// get the offsets again here
 	var coords = canvas.getBoundingClientRect();
