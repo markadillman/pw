@@ -194,7 +194,8 @@ var findDocument = function(db,query,req,res,callback,initCoords,setname){
 	console.log(util.inspect(queryVals));
 	console.log('narrowed query');
 	console.log(util.inspect(narrowedQuery));
-	var newQuery = {narrowedQuery,{pw:0}};
+	var excludedFields = {pw : 0}
+	var newQuery = {narrowedQuery,excludedFields};
 	console.log("new query:");
 	console.log(util.inspect(newQuery));
 	collection.find(newQuery).toArray(function(err,docs){
