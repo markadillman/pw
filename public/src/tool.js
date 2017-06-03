@@ -920,8 +920,8 @@ function passwordResponse(request,pw){
 		}
 		var repromptPassword = "Password incorrect. " + body.message;
 		var initCoords = {};
-		var initCoords.xcoord = body.xcoord;
-		var initCoords.ycoord = body.ycoord;
+		var initCoords['xcoord'] = body.xcoord;
+		var initCoords['ycoord'] = body.ycoord;
 		//
 		displayMessage(repromptPassword,passwordSubmit,doTileExit,true,true,initCoords);
 	}
