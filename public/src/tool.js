@@ -1822,6 +1822,12 @@ function svgLoadFromLocal() {
 // start Mark's code
 //HELPER CALLBACK FUNCTION TO SERVER SUBMIT
 function editSubmitCallback(request,pw){
+	if (verboseDebugging)
+	{
+		console.log("we in edit submit callback nao");
+		console.log("pw is:");
+		console.log(pw);
+	}
 	var body = JSON.parse(request.responseText);
 	tempXcoord = body.xcoord;
 	tempYcoord = body.ycoord;
