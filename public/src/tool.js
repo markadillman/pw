@@ -2074,6 +2074,8 @@ function svgPullCallback(request){
 		if (request.status === 200){
 			body = JSON.parse(request.responseText);
 			if (verboseDebugging){
+				console.log("raw request in pull callback:");
+				console.log(request);
 				console.log("Edit tile response body.");
 				console.log(body);
 			}

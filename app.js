@@ -277,7 +277,6 @@ var findCallback = function(db,req,res,docs,initCoords){
 		console.log(util.inspect(docs));
 		console.log("docs array accessor");
 		console.log(util.inspect(docs[0]));
-		res.status(200);
 		res.status(200).send(JSON.stringify(docs));
 	}
 	else if (docs.length === 0) {
@@ -299,24 +298,24 @@ var setEdited = function(xcoord,ycoord,editStatus){
 	var filter = {};
 	filter.xcoord = xcoord;
 	filter.ycoord = ycoord;
-	console.log("edit status filter");
-	console.log(util.inspect(filter));
+	//console.log("edit status filter");
+	//console.log(util.inspect(filter));
 	MongoClient.connect(dbUrl,function(err,db){
 		//test for errors, pop out if there are errors present
 		assert.equal(null,err);
-		console.log("connected succesfully to server");
+		//console.log("connected succesfully to server");
 		//perform update
 		var collection = db.collection('tiles');
 		//insert the document
-		console.log("About to update edit:");
-		console.log(util.inspect(insertDoc));
+		//console.log("About to update edit:");
+		//console.log(util.inspect(insertDoc));
 		collection.update(filter,insertDoc,{upsert:true},function(err,result){
 			if (err === null){
-				console.log("Updated editing status");
-				console.log(result);
+				//console.log("Updated editing status");
+				//console.log(result);
 			}
 			else {
-				console.log(err);
+				//console.log(err);
 			}
 		});
 	});
