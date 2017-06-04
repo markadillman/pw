@@ -2004,7 +2004,7 @@ function svgSubmitToServer(imgCanvas) {
 	//payload["ycoord"] = yTile;
 	// ### TO CHANGE: EVERYTHING CURRENTLY HAS NO PASSWORD
 	//if reprompt password flag is set, ask user to re-enter password
-	if (repromptPassword){
+	if (passwordReprompt){
 		//takes care of refreshing the prompt, etc. If fail once, add to message.
 		var initCoords = {};
 		initCoords.xcoord  = xTile;
