@@ -713,32 +713,32 @@ function displayMessage(msg, okFn, cancelFn, useTextInput, textInputPassword, in
 	if (initCoords&&textInputPassword){
 		//this works because the truthiness of strings in Javascriprt. Both true and defined.
 		eventListenerMsgBtnOK = msgBtnOK.addEventListener('click',function clicked1(){
-			msgBtnOk.removeEventListener("click",clicked1, false);
+			this.removeEventListener("click",clicked1, false);
 			okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);
 		},false); 
 		eventListenerMsgBtnCancel = msgBtnCancel.addEventListener('click',function clicked2(){
-			msgBtnCancel.removeEventListener("click",clicked2,false);
+			this.removeEventListener("click",clicked2,false);
 			cancelFn();
 		},false);
 	}
 	else if (initCoords) {
 		eventListenerMsgBtnOK = msgBtnOK.addEventListener('click',function clicked1(){
-			msgBtnOk.removeEventListener("click",clicked1, false);
+			this.removeEventListener("click",clicked1, false);
 			okFn(initCoords.xcoord,initCoords.ycoord);
 		},false);
 		eventListenerMsgBtnCancel = msgBtnCancel.addEventListener('click',function clicked2(){
-			msgBtnCancel.removeEventListener("click",clicked2,false);
+			this.removeEventListener("click",clicked2,false);
 			cancelFn();
 		},false);
 	}
 	else
 	{
 		eventListenerMsgBtnOK = msgBtnOK.addEventListener('click',function clicked1(){
-			msgBtnCancel.removeEventListener("click",clicked1,false);
+			this.removeEventListener("click",clicked1,false);
 			okFn(); 
 		},false);
 		eventListenerMsgBtnCancel = msgBtnCancel.addEventListener('click',function clicked2(){
-			msgBtnCancel.removeEventListener("click",clicked2,false);
+			this.removeEventListener("click",clicked2,false);
 			cancelFn();
 		},false);
 	}
@@ -2088,48 +2088,48 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 		if (textInputPassword) {
 			//this works because the truthiness of strings in Javascriprt. Both true and defined.
 			pwdBtnOK.addEventListener('click',function clicked3(){
-				pwdBtnOK.removeEventListener('click',clicked3,false);
+				this.removeEventListener('click',clicked3,false);
 				okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);
 				},false); 
 		}
 		else 
 		{
 			pwdBtnOK.addEventListener('click',function clicked3(){
-				pwdBtnOK.removeEventListener('click',clicked3,false);
+				this.removeEventListener('click',clicked3,false);
 				okFn(initCoords.xcoord,initCoords.ycoord);
 			},false);
 		}
 		//if you cancel, you will go back to teh editing screen
 		pwdBtnCancel.addEventListener('click',function clicked4(){
-			pwdBtnCancel.removeEventListener('click',clicked4,false);
+			this.removeEventListener('click',clicked4,false);
 			removePrompt();
 			},false);
 		//if you want to keep the same password, you are done editing. back to gameplay.
 		pwdBtnSkip.addEventListener('click',function clicked5(){
-			pwdBtnSkip.removeEventListener('click',clicked5,false);
+			this.removeEventListener('click',clicked5,false);
 			completeEdit();
 			},false); 
 		//if you want to keep public, explicitly set password to ""
 		pwdBtnPublic.addEventListener('click',function clicked6(){
-			pwdBtnPublic.removeEventListener('click',clicked6,false);
+			this.removeEventListener('click',clicked6,false);
 			okFn(initCoords.xcoord,initCoords.ycoord,"");
 			},false);
 	} else {
 		//should never get here but must be present to remove a borked event listener
 		msgBtnOK.addEventListener('click',function clicked3(){
-			pwdBtnOK.removeEventListener('click',clicked3,false);
+			this.removeEventListener('click',clicked3,false);
 			okFn();
 			},false);
 		msgBtnCancel.addEventListener('click',function clicked4(){
-			msgBtnCancel.removeEventListener('click',clicked4,false);
+			this.removeEventListener('click',clicked4,false);
 			removePrompt();
 			},false);
 		pwdBtnSkip.addEventListener('click',function clicked5(){
-			pwdBtnSkip.removeEventListener('click',clicked5,false);
+			this.removeEventListener('click',clicked5,false);
 			completeEdit();
 			},false);
 		pwdBtnPublic.addEventListener('click',function clicked6(){
-			pwdBtnPublic.removeEventListener('click',clicked5,false);
+			this.removeEventListener('click',clicked5,false);
 			okFn(null,null,'');
 			},false);
 	}
