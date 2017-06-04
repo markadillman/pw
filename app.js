@@ -207,6 +207,8 @@ var insertDocumentNoCallback = function(db,insertDoc,filter,res){
 
 var findDocument = function(db,query,req,res,callback,initCoords,setname){
 	var collection = db.collection('tiles');
+	console.log("FOR");
+	console.log(callback.toString());
 	console.log(util.inspect(query));
 	var fields = {};
 	fields.xcoord = 1;
@@ -222,13 +224,17 @@ var findDocument = function(db,query,req,res,callback,initCoords,setname){
 		console.log("Size of docs:");
 		console.log(docs.length);
 		if (initCoords && setname){
+			console.log("logic1");
 			callback(db,req,res,docs,initCoords,setname);
 		}
 		else if (initCoords){
+			console.log("logic1");
 			callback(db,req,res,docs,initCoords);
 		} else {
+			console.log("logic1");
 			callback(db,req,res,docs);
 		}
+		console.log("---end callback");
 	});
 }
 
