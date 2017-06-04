@@ -348,9 +348,13 @@ app.post('/retrieve',function(req,res){
 	query['ycoord'] = req.body.ycoord;
 	if (req.body.pw){
 		query['pw'] = req.body.pw;
+		console.log("pw in da body");
+		console.log(req.body.pw);
 	}
 	else {
-		query['pw']="";
+		query['pw']='';
+		console.log("dere wud no pw so pw now");
+		console.log(query['pw']);
 	}
 	if (!(Number.isInteger(query['xcoord'])&&Number.isInteger(query['ycoord']))){
 		res.status(527).send("Tile coordinates invalid or out of bounds.");
