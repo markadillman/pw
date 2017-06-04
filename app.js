@@ -619,6 +619,48 @@ app.post('/pwcheck',function(req,res){
 	});
 });
 
+//callback for the final submission password check
+var finalPwCheckCallback = function(db,req,res,docs,args){
+	//if no match, this tile is good to edit. (coordinates in bounds verified earlier)
+	var payload = {};
+	if (docs.length === 1){
+		if (docs[0]['pw'] === args.pw || docs[0][pw] === ''){
+			payload.message = "Passwords match.";
+			res.status(224).send(JSON.stringify(payload));
+		}
+		//else password is set. Tell client to collect user password and compare
+		//in password check middleware.
+		else {
+			payload.message = "The password does not match.";
+			payload.xcoord = args.xcoord;
+			payload.ycoord = args.ycoord;
+			res.status(299).send(JSON.stringify(payload));
+		}
+	}
+	else {
+		payload.message = "The password does not match.";
+		payload.xcoord = args.xcoord;
+		payload.ycoord = args.ycoord;
+		res.status(299);
+		res.send(JSON.stringify(payload));
+	}
+};
+
+//same as pwcheck middleware but disregards editing status as it will always be true
+app.post('/finalpwcheck',function(req,res){
+	var args = {};
+	args.xcoord = req.body.x;
+	args.ycoord = req.body.y;
+	args.pw = req.body.pw;
+	MongoClient.connect(dbUrl,function(err,db){
+		//test for errors, pop out if there are errors present
+		assert.equal(null,err);
+		console.log("connected succesfully to server");
+		//perform lookup
+		findDocumentPW(db,args,req,res,finalPwCheckCallback,args);
+	});
+});
+
 /* This function is involved in setting a password for the first time. It is only
    used wehen the password is set, not every time a user decides to keep a tile
    edit-locked with a password.

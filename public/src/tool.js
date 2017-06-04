@@ -1945,7 +1945,7 @@ function editPWSubmit(xcoord,ycoord){
 		console.log("password check payload log");
 		console.log(payload);
 	}
-	postRequest('/pwcheck',payload,editPWResponse,postOnError,payload.pw);
+	postRequest('/finalpwcheck',payload,editPWResponse,postOnError,payload.pw);
 }
 
 //editPWResponse parses the possible outcomes of the password check and routes
