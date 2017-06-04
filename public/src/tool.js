@@ -1906,7 +1906,7 @@ function submitNewPwPost(request){
 		completeEdit();
 	}
 	else {
-		if verboseDebugging{
+		if (verboseDebugging){
 			console.error(request.status);
 			console.error(request.responseText);
 			pwUpdateError();
