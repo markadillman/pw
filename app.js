@@ -178,7 +178,7 @@ var insertDocument = function(db,insertDoc,filter,res,callback){
 }
 
 
-var insertCallback = function(db,res,docs,initCoords){
+var insertCallback = function(db,res,initCoords){
 	console.log("in callback");
 	db.close();
 	var sendCoords = {};
