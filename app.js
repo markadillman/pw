@@ -185,7 +185,7 @@ var insertCallback = function(db,res,initCoords){
 	sendCoords.xcoord = initCoords.xcoord;
 	sendCoords.ycoord = initCoords.ycoord;
 	console.log();
-	res.sendStatus(200).send(JSON.stringify(sendCoords));
+	res.status(200).send(JSON.stringify(sendCoords));
 }
 
 var insertDocumentNoCallback = function(db,insertDoc,filter,res){
