@@ -933,6 +933,11 @@ function passwordSubmit(xcoord,ycoord){
 //this will either get an OK to edit the tile or a denial, which displays a new password prompt
 //then loops back to the function above. Data should include {xcoord:x,ycoord:y}
 function passwordResponse(request,pw){
+	if (verboseDebugging){
+		console.log("we're inna passwud respornse");
+		console.log("response obj:");
+		console.log(request.responseText);
+	}
 	var body = JSON.parse(request.responseText);
 	//if someone is now editing the tile, you must go back to game mode
 	if (request.status === 242){
