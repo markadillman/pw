@@ -2095,7 +2095,7 @@ function svgSubmitToServer(imgCanvas) {
 		var initCoords = {};
 		initCoords.xcoord  = xTile;
 		initCoords.ycoord = yTile;
-		promptPWOnEdit(passWordReenterPrompt,initCoords);
+		promptPWOnEdit(passwordReenterPrompt,initCoords);
 	}
 	else {
 		editPasswordApproved(xTile,yTile);
