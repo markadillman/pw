@@ -587,8 +587,8 @@ var pwCheckCallback = function(db,req,res,docs,args){
 		//in password check middleware.
 		else {
 			payload.message = "The password does not match.";
-			payload.xcoord = docs[0]['xcoord'];
-			payload.ycoord = docs[0]['ycoord'];
+			payload.xcoord = args.xcoord;
+			payload.ycoord = args.ycoord;
 			res.status(299).send(JSON.stringify(payload));
 		}
 	}

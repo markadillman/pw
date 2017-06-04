@@ -932,7 +932,7 @@ function passwordSubmit(xcoord,ycoord){
 
 //this will either get an OK to edit the tile or a denial, which displays a new password prompt
 //then loops back to the function above. Data should include {xcoord:x,ycoord:y}
-function passwordResponse(request,pw){
+function passwordResponse(request,pw,initCoords){
 	if (verboseDebugging){
 		console.log("we're inna passwud respornse");
 		console.log("response obj:");
