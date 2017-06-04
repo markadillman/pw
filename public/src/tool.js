@@ -2105,7 +2105,7 @@ function svgLoadFromServer(xTile, yTile, password) {
 	if (password){
 		payload["pw"] = password;
 	}
-	else {p
+	else {
 		payload["pw"] = '';
 	}
 	postRequest("/retrieve",payload,svgPullCallback,postOnError);
