@@ -579,7 +579,7 @@ var pwCheckCallback = function(db,req,res,docs,args){
 			res.status(242).send(JSON.stringify(payload));
 		}
 		//if password matches, send approval to edit
-		else if (!(docs[0]['pw'] === args.pw)){
+		else if (docs[0]['pw'] === args.pw || docs[0][pw] === ''){
 			payload.message = "Passwords match.";
 			res.status(224).send(JSON.stringify(payload));
 		}
