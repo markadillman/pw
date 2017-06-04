@@ -593,8 +593,9 @@ var pwCheckCallback = function(db,req,res,docs,args){
 		}
 	}
 	else {
+		payload.message = "The password does not match.";
 		res.status(299);
-		res.send();
+		res.send(JSON.stringify(payload));
 	}
 };
 
