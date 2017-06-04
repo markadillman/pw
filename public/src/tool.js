@@ -1869,9 +1869,7 @@ function newPasswordPrompt(xcoord,ycoord,pw){
 	initCoords.ycoord = ycoord;
 
 	//set up new prompt in HTML DOM. Make sure that defaults are reset.
-	displayPassword("If you wish to set a new password, enter it and confirm.\n
-					If you wish to keep the previous password, press 'Don't Change'\n
-					If you wish to keep the tile public, press 'Make Public",
+	displayPassword("If you wish to set a new password, enter it and confirm.\nIf you wish to keep the previous password, press Don't Change\nIf you wish to keep the tile public, press Make Public",
 					checkPasswordMatch,pw,initCoords);
 
 }
