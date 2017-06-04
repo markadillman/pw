@@ -310,7 +310,7 @@ var setEdited = function(xcoord,ycoord,editStatus){
 		//insert the document
 		console.log("About to update edit:");
 		console.log(util.inspect(insertDoc));
-		collection.update(filter,insertDoc,{upsert:false},function(err,result){
+		collection.update(filter,insertDoc,{upsert:true},function(err,result){
 			if (err === null){
 				console.log("Updated editing status");
 				console.log(result);
@@ -511,11 +511,11 @@ var editCheckCallback = function(db,req,res,docs,initCoords){
 		payload.message = "Tile available for immediate edit: no previous owner";
 		//create the tile
 		newTile = {};
-		newTile.xcoord = initCoords.x;
-		newTile.ycoord = initCoords.y;
+		newTile.xcoord = initCoords.xcoord;
+		newTile.ycoord = initCoords.ycoord;
 		var coords = {};
-		coords.xcoord = initCoords.x;
-		coords.ycoord = initCoords.y;
+		coords.xcoord = initCoords.xcoord;
+		coords.ycoord = initCoords.ycoord;
 		newTile.pw = "";
 		newTile.isBeingEdited = true;
 		//add it to the db
