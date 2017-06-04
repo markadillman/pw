@@ -2006,7 +2006,7 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 		console.log("this should be the old password");
 		console.log(textInputPassword);
 	}
-	messageText.innerHTML = msg;
+	passwordSetText.innerHTML = msg;
 	if (initCoords){
 		pwdBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord);});
 		//if you cancel, you will go back to teh editing screen
