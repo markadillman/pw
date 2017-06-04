@@ -956,9 +956,10 @@ function passwordApproved(xTile,yTile,password){
 	svgClearAll();
 	if (verboseDebugging){
 		console.log("in pw approved");
-		console.log("x,y");
+		console.log("x,y,pw");
 		console.log(xTile);
 		console.log(yTile);
+		console.log(pw);
 	}
 	svgLoadFromServer(xTile, yTile, password);
 	doLoadSurroundingsFromServer();
@@ -2049,6 +2050,7 @@ function svgPullCallback(request){
 		if (request.status === 200){
 			body = JSON.parse(request.responseText);
 			if (verboseDebugging){
+				console.log("Edit tile response body.");
 				console.log(body.svg);
 			}
 			//load SVG into editable SVG region
