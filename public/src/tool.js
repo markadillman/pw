@@ -1993,6 +1993,7 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 	var pwdBtnCancel = document.getElementById('pwdBtnCancel');
 	var pwdBtnSkip = document.getElementById('pwdBtnSkip');
 	var pwdBtnPublic = document.getElementById('pwdBtnSkip');
+	var passwordSetText = document.getElementById('pwdBtnSkip');
 	messageText.innerHTML = msg;
 	if (initCoords){
 		pwdBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord);});
