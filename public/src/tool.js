@@ -2075,7 +2075,7 @@ function svgPullCallback(request){
 			body = JSON.parse(request.responseText);
 			if (verboseDebugging){
 				console.log("Edit tile response body.");
-				console.log(body.svg);
+				console.log(body);
 			}
 			//load SVG into editable SVG region
 			//must do away with any drawingGroup and platformsGroup higher in DOM
