@@ -2105,6 +2105,8 @@ function svgPullCallback(request){
 // call this from the svg init function
 // and from doTileEdit
 function svgLoadFromServer(xTile, yTile, password) {
+	console.log("password pre retrieve");
+	console.log(password);
 	handleShapeInProgress();
 	svgClearAll();
 
