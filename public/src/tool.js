@@ -1834,7 +1834,7 @@ function editPWSubmit(xcoord,ycoord){
 function editPWResponse(request,pw){
 	var body = JSON.parse(request.responseText);
 	//299 is code for incorrect password
-	else if (request.status === 299){
+	if (request.status === 299){
 		if (verboseDebugging){
 			console.log("Password incorrect.");
 		}
@@ -1857,7 +1857,6 @@ function editPWResponse(request,pw){
 
 //helper function for password submit cancel
 function removePrompt(){
-
 	messageDiv.style.display = "none";
 }
 

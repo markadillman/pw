@@ -544,10 +544,10 @@ var pwCheckCallback = function(db,req,res,docs,args){
 		//else password is set. Tell client to collect user password and compare
 		//in password check middleware.
 		else {
-			payload.message = "Please enter the password for this tile to begin editing.";
+			payload.message = "The password does not match.";
 			payload.xcoord = docs[0][xcoord];
 			payload.ycoord = docs[0][ycoord];
-			res.status(233).send(JSON.stringify(payload));
+			res.status(299).send(JSON.stringify(payload));
 		}
 	}
 	else {
