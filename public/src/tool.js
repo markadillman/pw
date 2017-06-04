@@ -2126,7 +2126,7 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 			this.removeEventListener('click',clicked6,false);
 			passwordDiv.style.display = "none";
 			//no pw argument will auto 
-			submitNewPassword(initCoords.xcoord,initCoords.ycoord,null,textInputPassword);
+			submitNewPassword(initCoords.xcoord,initCoords.ycoord,textInputPassword,null);
 			},false);
 	} else {
 		//should never get here but must be present to remove a borked event listener
