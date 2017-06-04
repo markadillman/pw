@@ -1961,8 +1961,9 @@ function editPWResponse(request,pw){
 		var initCoords = {};
 		initCoords.xcoord = body.xcoord;
 		initCoords.ycoord = body.ycoord;
+		initCoords.pw = pw;
 		//
-		displayMessage(repromptPassword,editPWSubmit,removePrompt,true,true,initCoords);
+		displayMessage(repromptPassword,editPWSubmit,removePrompt,true,pw,initCoords);
 	}
 	//else password is confirmed. Note that 242 is success because tile is being edited.
 	else if (request.status === 224){
@@ -2144,8 +2145,15 @@ function editPasswordApproved(xcoord,ycoord,pw){
 		console.log(pw);
 	}
 	var payload = {};
-	payload["xcoord"] = xcoord;
-	payload["ycoord"] = ycoord;
+	if (xcoord && ycoord)
+	{
+		payload["xcoord"] = xcoord;
+		payload["ycoord"] = ycoord;
+	}
+	else {
+		payload["xcoord"] = XTile;
+		payload["ycoord"] = YTile;
+	}
 	//release the edit block on this tile via the query
 	payload["isBeingEdited"] = false;
 	//password is used as query field. No-leak pw check. Cannot bypass PW with POSTman to /edit
