@@ -605,7 +605,7 @@ var updatePw = function(db,filter,setField,req,res,callback,args){
 	//insert the document
 	console.log("About to insert:");
 	console.log(util.inspect(setField));
-	collection.update(filter,setFields,{upsert:true},function(err,result){
+	collection.update(filter,setField,{upsert:true},function(err,result){
 		if (err === null){
 			console.log(util.inspect(result));
 			callback(db,res);
