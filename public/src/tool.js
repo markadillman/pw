@@ -2120,6 +2120,10 @@ function svgLoadFromServer(xTile, yTile, password) {
 	else {
 		payload["pw"] = '';
 	}
+	if (verboseDebugging){
+		console.log("payload for retrieve:");
+		console.log(payload);
+	}
 	postRequest("/retrieve",payload,svgPullCallback,postOnError);
 	// end Mark's code
 
