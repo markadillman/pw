@@ -973,6 +973,7 @@ function passwordResponse(request,pw){
 //which allows to be neatly called in password success callbacks at various stages.
 function passwordApproved(xTile,yTile,password){
 	// clear out everything from drawing area just in case
+	messageDiv.style.display = "none";
 	svgClearAll();
 	if (verboseDebugging){
 		console.log("in pw approved");
