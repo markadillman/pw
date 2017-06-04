@@ -689,16 +689,16 @@ function doQuitToHomeScreen() {
 function displayMessage(msg, okFn, cancelFn, useTextInput, textInputPassword, initCoords) {
 	messageText.innerHTML = msg;
 	if (initCoords){
-		msgBtnOK.onclick = okFn(initCoords.xcoord,initCoords.ycoord);
-		msgBtnCancel.onclick = cancelFn;
+		msgBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord);});
+		msgBtnCancel.addEventListener('click',function(){cancelFn()});
 		if (textInputPassword) {
 			//this works because the truthiness of strings in Javascriprt. Both true and defined.
-			msgBtnOK.onclick = okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);
+			msgBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);}; = 
 		}
 	} else
 	{
-		msgBtnOK.onclick = okFn;
-		msgBtnCancel.onclick = cancelFn;
+		msgBtnOK.addEventListener('click',function(){okFn();});
+		msgBtnCancel.addEventListener('click',function(){cancelFn();});
 	}
 	if (useTextInput) { // show the text input element
 		if (textInputPassword === true){
