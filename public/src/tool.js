@@ -2072,7 +2072,14 @@ function svgPullCallback(request){
 	//if response is received and in good order
 	if (request.readyState === 4){
 		if (request.status === 200){
-			body = JSON.parse(request.responseText);
+			//trim the array brackets off of the response body here:
+			//trim open square bracket
+			var properParseText = request.responseText.substring(1);
+			//trim close square bracket
+			properParseText = properParseText.substring(0,str.length-1);
+			console.log("this being parsed:");
+			console.log(properParseText);
+			body = JSON.parse(properParseText);
 			if (verboseDebugging){
 				console.log("raw request in pull callback:");
 				console.log(request);
