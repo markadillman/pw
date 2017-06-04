@@ -555,8 +555,8 @@ var editCheckCallback = function(db,req,res,docs,initCoords){
 		else {
 			console.log("we in the realm of the password check.");
 			payload.message = "Please enter the password for this tile to begin editing.";
-			payload.xcoord = docs[0][xcoord];
-			payload.ycoord = docs[0][ycoord];
+			payload.xcoord = docs[0]['xcoord'];
+			payload.ycoord = docs[0]['ycoord'];
 			res.status(233).send(JSON.stringify(payload));
 		}
 	}
