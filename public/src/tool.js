@@ -944,6 +944,7 @@ function passwordResponse(request,pw,initCoords){
 		if (verboseDebugging){
 			console.log("Edit authorization failed: Currently being edited.");
 		}
+		
 		displayMessage(body.message,doTileExit,doTileExit,false);
 		return request.status;
 	}

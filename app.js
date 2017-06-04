@@ -594,6 +594,8 @@ var pwCheckCallback = function(db,req,res,docs,args){
 	}
 	else {
 		payload.message = "The password does not match.";
+		payload.xcoord = args.xcoord;
+		payload.ycoord = args.ycoord;
 		res.status(299);
 		res.send(JSON.stringify(payload));
 	}
