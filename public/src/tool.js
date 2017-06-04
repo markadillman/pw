@@ -2036,10 +2036,17 @@ function editPasswordApproved(xcoord,ycoord,pw){
 	payload["isBeingEdited"] = false;
 	//password is used as query field. No-leak pw check. Cannot bypass PW with POSTman to /edit
 	if (pw) {
+		if (verboseDebugging){
+			console.log("had a password.");
+		}
 		payload["pw"] = pw;
 	}
 	else {
-		payload["pw"] = '';
+		payload["pw"] = "";
+		if (verboseDebugging){
+			console.log("didnt haz pw. it is now:");
+			console.log(payload[pw]);
+		}
 	}
 	//add svg to payload
 	payload["svg"] = svgMinPrepend + artToString() + platformToString() + svgAppend;
@@ -2047,7 +2054,7 @@ function editPasswordApproved(xcoord,ycoord,pw){
 		console.log("Paylaod to server");
 		console.log(payload);
 	}
-	postRequest("/edit",payload,editSubmitCallback,postOnError,pw);
+	postRequest("/edit",payload,editSubmitCallback,postOnError,payload.pw);
 }
 // end Mark's code
 
