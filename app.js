@@ -593,7 +593,7 @@ var pwCheckCallback = function(db,req,res,docs,args){
 		}
 	}
 	else {
-		res.status(500);
+		res.status(299);
 		res.send();
 	}
 };
