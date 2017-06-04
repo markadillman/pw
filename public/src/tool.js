@@ -1986,7 +1986,7 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 		}
 	} else {
 		msgBtnOK.addEventListener('click',function(){okFn();});
-		msgBtnCancel.addEventListener('click',functtion(){removePrompt;});
+		msgBtnCancel.addEventListener('click',function(){removePrompt();});
 		pwdBtnSkip.addEventListtener('click',function(){completeEdit();});
 	}
 	passwordDiv.style.display = "block";
