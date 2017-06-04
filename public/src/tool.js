@@ -1903,6 +1903,7 @@ function editPWResponse(request,pw){
 //helper function for password submit cancel
 function removePrompt(){
 	messageDiv.style.display = "none";
+	passwordDiv.style.display = "none";
 }
 
 //newPasswordPrompt displays a messsage and handles a new password field
@@ -1975,6 +1976,7 @@ function submitNewPwPost(request){
 
 function completeEdit(){
 // use message box to put up confirmation message
+	passwordDiv.style.display = "none";
 	displayMessage("Your art has been added to the world.", doTileExit, doTileExit, false);
 }
 
