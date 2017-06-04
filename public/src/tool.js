@@ -912,7 +912,7 @@ function passwordSubmit(xcoord,ycoord){
 	payload.pw = document.getElementById("msgTextInput").value;
 	payload.x = xcoord;
 	payload.y = ycoord;
-	postRequest('/pwcheck',payload,passwordResponse,postOnError);
+	postRequest('/pwcheck',payload,passwordResponse,postOnError,payload.pw);
 }
 
 //this will either get an OK to edit the tile or a denial, which displays a new password prompt
