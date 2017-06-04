@@ -489,6 +489,8 @@ var editCheckCallback = function(db,req,res,docs,initCoords){
 		newTile.isBeingEdited = true;
 		//add it to the db
 		insertDocumentNoCallback(db,newTile,coords,res);
+		payload.xcoord = initCoords.x;
+		payload.ycoord = initCoords.y;
 		res.status(224).send(JSON.stringify(payload));
 	}
 	//if previously edited, check for a password. If password is not blank, prompt
