@@ -906,10 +906,10 @@ function tileEditCallback(request){
 		//build parameter object for submit so that client can tell server what coordinates
 		//the password they entered goes to:
 		var args = {};
-		initCoords.xcoord = body.xcoord;
-		initCoords.ycoord = body.ycoord;
+		args.xcoord = body.xcoord;
+		args.ycoord = body.ycoord;
 		//both of the button functions contain ways of returning text field to normal
-		displayMessage(body.message,passwordSubmit,doTileExit,true,true,initCoords);
+		displayMessage(body.message,passwordSubmit,doTileExit,true,true,args);
 	}
 }
 
