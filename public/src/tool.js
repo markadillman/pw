@@ -2086,8 +2086,8 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 	var pwdBtnOK = document.getElementById('pwdBtnOK');
 	var pwdBtnCancel = document.getElementById('pwdBtnCancel');
 	var pwdBtnSkip = document.getElementById('pwdBtnSkip');
-	var pwdBtnPublic = document.getElementById('pwdBtnSkip');
-	var passwordSetText = document.getElementById('pwdBtnSkip');
+	var pwdBtnPublic = document.getElementById('pwdBtnPublic');
+	var passwordSetText = document.getElementById('passwordSetText');
 	if (verboseDebugging){
 		console.log("this should be the old password");
 		console.log(textInputPassword);
