@@ -541,6 +541,8 @@ var editCheckCallback = function(db,req,res,docs,initCoords){
 		else if (docs[0][pw] === ''){
 			console.log("no dadgum password man, go hed");
 			payload.message = "No password set on this tile: edit OK.";
+			console.log("224 loggie");
+			console.log(util.inspect(payload));
 			res.status(224).send(JSON.stringify(payload));
 		}
 		//else password is set. Tell client to collect user password and compare

@@ -876,8 +876,13 @@ function tileEditRequest(xTile,yTile){
 function tileEditCallback(request){
 	//if the response is green-lighted (224), return it to commence with do edit
 	var body = JSON.parse(request.responseText);
-	console.log("TILE EDIT CALLBACK STATUS: ");
-	console.log(request.status);
+	if (verboseDebugging)
+	{
+		console.log("TILE EDIT CALLBACK STATUS: ");
+		console.log(request.status);
+		console.log("BODY");
+		console.log(body);
+	}
 	if (request.status === 224){
 		if (verboseDebugging){
 			console.log("Edit authorization success.");
