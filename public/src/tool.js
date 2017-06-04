@@ -1945,7 +1945,7 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 		//if you want to keep the same password, you are done editing. back to gameplay.
 		pwdBtnSkip.onclick = completeEdit();
 		//if you want to keep public, explicitly set password to ""
-		pwdBtnPublic.onclick = publicGn(initCoords.xcoord,initCoords.ycoord,"");
+		pwdBtnPublic.onclick = okFn(initCoords.xcoord,initCoords.ycoord,"");
 		if (textInputPassword) {
 			//this works because the truthiness of strings in Javascriprt. Both true and defined.
 			pwdBtnOK.onclick = okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);
