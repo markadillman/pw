@@ -2029,6 +2029,11 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 
 //helper funciton that asks the user if they wish to change the password
 function editPasswordApproved(xcoord,ycoord,pw){
+	if (verboseDebugging){
+		console.log("we edit pw approved nao");
+		console.log("pw is:");
+		console.log(pw);
+	}
 	var payload = {};
 	payload["xcoord"] = xcoord;
 	payload["ycoord"] = ycoord;
