@@ -1985,9 +1985,9 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 			pwdBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);}); 
 		}
 	} else {
-		msgBtnOK.onclick = okFn;
-		msgBtnCancel.onclick = removePrompt;
-		pwdBtnSkip.onclick = completeEdit;
+		msgBtnOK.addEventListener('click',function(){okFn();});
+		msgBtnCancel.addEventListener('click',functtion(){removePrompt;});
+		pwdBtnSkip.addEventListtener('click',function(){completeEdit();});
 	}
 	passwordDiv.style.display = "block";
 }
