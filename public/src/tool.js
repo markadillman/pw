@@ -105,6 +105,9 @@ var myFileInput;		// HTML input element for handling files
 var svgPrepend = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"600\" height=\"350\" viewBox=\"0 0 600 350\">  <clipPath id=\"avatarClipPath\"><ellipse cx=\"300\" cy=\"175\" rx=\"87\" ry=\"174\"></ellipse></clipPath> <rect width=\"600\" height=\"350\" fill=\"white\"></rect>";
 var svgMinPrepend = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"> <clipPath id=\"avatarClipPath\"><ellipse cx=\"300\" cy=\"175\" rx=\"87\" ry=\"174\"></ellipse></clipPath>";
 var svgAppend = "</svg>";
+//this variable tracks whether password reprompt at edit submit is necessary
+var passwordReprompt = false;
+const passwordReenterPrompt = "Please re-enter your tile's password to submit your edits.";
 // end Mark's code
 
 // stop event propagation so forms don't actually submit
@@ -688,9 +691,15 @@ function displayMessage(msg, okFn, cancelFn, useTextInput, textInputPassword, in
 	if (initCoords){
 		msgBtnOK.onclick = okFn(initCoords.xcoord,initCoords.ycoord);
 		msgBtnCancel.onclick = cancelFn;
+		if (textInputPassword) {
+			//this works because the truthiness of strings in Javascriprt. Both true and defined.
+			msgBtnOK.onclick = okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);
+		}
+	} else
+	{
+		msgBtnOK.onclick = okFn;
+		msgBtnCancel.onclick = cancelFn;
 	}
-	msgBtnOK.onclick = okFn;
-	msgBtnCancel.onclick = cancelFn;
 	if (useTextInput) { // show the text input element
 		if (textInputPassword === true){
 			//must be reverted in the ok and cancel functions. Reverts on refresh.
@@ -935,6 +944,7 @@ function passwordResponse(request,pw){
 		if (verboseDebugging){
 			console.log("Password correct. Moving to edit.");
 		}
+		passwordReprompt = true;
 		passwordApproved(body.xcoord,body.ycoord,pw);
 	}
 }
@@ -1059,6 +1069,8 @@ function doTileEdit(currentX, currentY) {
 // exits from the currently edited tile back into game mode
 // does not save the current edits!
 function doTileExit() {
+	//make sure to return repromptPassword flag to default if changes
+	repromptPassword = false;
 	
 	// clear out all the current SVG
 	svgClearAll();
@@ -1195,7 +1207,8 @@ function putGroupInCanvas(myGroupStr, myContext, clipX, clipY, clipW, clipH, can
 // load the current SVG into the canvas, overwriting the old data
 // version written by Toni to use the generic putGroupinCanvas function 
 function updateCanvas() {
-	putGroupInCanvas(artToString(), hiddenContext, 0, 0, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
+	putGroupInCanvas(artToString(), hiddenContext, 0, 0, canvasWidth, canvasHeight,
+					 0, 0, canvasWidth, canvasHeight);
 }
 
 // helper functions to convert rgb integers into a hex color string
@@ -1800,20 +1813,217 @@ function editSubmitCallback(request){
 		}
 	}
 }
+
+//helper function that reprompts for password on submit. initCoords in
+//format: {xcoord:x,ycoord:y}
+function promptPWOnEdit(message,initCoords){
+	//prompt the user to reenter password
+	displayMessage(message,editPWCSubmit,removePrompt,true,true,initCoords);
+}
+
+function editPWSubmit(xcoord,ycoord){
+	var payload = {};
+	payload.pw = document.getElementById("msgTextInput").value;
+	payload.x = xcoord;
+	payload.y = ycoord;
+	postRequest('/pwcheck',payload,editPWResponse,postOnError,payload.pw);
+}
+
+//editPWResponse parses the possible outcomes of the password check and routes
+//appropriately
+function editPWResponse(request,pw){
+	var body = JSON.parse(request.responseText);
+	//299 is code for incorrect password
+	else if (request.status === 299){
+		if (verboseDebugging){
+			console.log("Password incorrect.");
+		}
+		var repromptPassword = "Password incorrect " + body.message;
+		var initCoords = {};
+		initCoords.xcoord = body.xcoord;
+		initCoords.ycoord = body.ycoord;
+		//
+		displayMessage(repromptPassword,passwordSubmit,doTileExit,true,true,initCoords);
+	}
+	//else password is confirmed. Note that 242 is success because tile is being edited.
+	else if (request.status === 242){
+		if (verboseDebugging){
+			console.log("Password correct. Moving to edit.");
+		}
+		passwordReprompt = false;
+		editPasswordApproved(body.xcoord,body.ycoord,pw);
+	}
+}
+
+//helper function for password submit cancel
+function removePrompt(){
+
+	messageDiv.style.display = "none";
+}
+
+//newPasswordPrompt displays a messsage and handles a new password field
+function newPasswordPrompt(xcoord,ycoord,pw){
+
+	//Gather prompt arguments and pass them along to handler.
+	var initCoords = {};
+	initCoords.xcoord = xcoord;
+	initCoords.ycoord = ycoord;
+
+	//set up new prompt in HTML DOM. Make sure that defaults are reset.
+	displayPassword("If you wish to set a new password, enter it and confirm.\n
+					If you wish to keep the previous password, press 'Don't Change'\n
+					If you wish to keep the tile public, press 'Make Public",
+					checkPasswordMatch,pw,initCoords);
+
+}
+
+//this is called first if new password is set
+function checkPasswordMatch(xcoord,ycoord,pw){
+
+	messageDiv.style.display = "none";
+	var firstPass = document.getElementById('firstPassword').value;
+	var secondPass = document.getElementById('secondPassword').value;
+
+	if (firstPass === secondPass){
+		submitNewPassword(xcoord,ycoord,pw,firstPass);
+	}
+	else {
+		displayPassword("The passwords you entered did not match.\n
+		   If you wish to set a new password, enter it and confirm.\n
+		   If you wish to keep the previous password, press 'Don't Change'\n
+		   If you wish to keep the tile public, press 'Make Public"
+		   , checkPasswordMatch, pw ,initCoords);
+	}
+
+}
+
+//follows checkPasswordMatch if user chooses to set a new password, otherwise it is first
+function submitNewPassword(xcoord,ycoord,pw,newpw){
+	//construct the password payload
+	var payload = {};
+	payload.xcoord = xcoord;
+	payload.ycoord = ycoord;
+	payload.pw = pw;
+	payload.newpw = newpw;
+	postRequest('/pwset',payload,submitNewPwPost,postOnError);
+}
+
+function submitNewPwPost(request){
+	if (request.status < 400 || request.status > 599){
+		completeEdit();
+	}
+	else {
+		if verboseDebugging{
+			console.error(request.status);
+			console.error(request.responseText);
+			pwUpdateError();
+		}
+	}
+}
+
+function completeEdit(){
+// use message box to put up confirmation message
+	displayMessage("Your art has been added to the world.", doTileExit, doTileExit, false);
+}
+
+//companinon to complete edit, but informs of an error in edit submission.
+function editError(){
+	displayMessage("There has been an error submitting your art.\n
+		            Save your work locally and try again later.",
+		            removePrompt(),removePrompt(),false,false);
+}
+
+//this will inform that, due to a server error, no new password has been set. Edits still took.
+function pwUpdateError(){
+	displayMessage("There was an error updating the password. The previous\n
+					password will still be used to access the tile edit feature\n
+					and any edits you have made have been saved. Try to reset\n
+					the password for this tile again later", removePrompt(),
+					removePrompt(),false,false);
+}
+
+// MARK ADDED:  borrowed from Tony's displayMessage but conformed for passwords and more buttons
+// textInputPassword is an optional field that can contain a boolean or a submitted password to
+// pass along to a response button function.
+// initCoords similarly are present only to pass along to event-driven subfunctions.
+// these functions should include: messageDiv.style.display = "none";
+function displayPassword(msg, okFn, textInputPassword, initCoords) {
+	messageText.innerHTML = msg;
+	if (initCoords){
+		pwdBtnOK.onclick = okFn(initCoords.xcoord,initCoords.ycoord);
+		//if you cancel, you will go back to teh editing screen
+		pwdBtnCancel.onclick = removePrompt();
+		//if you want to keep the same password, you are done editing. back to gameplay.
+		pwdBtnSkip.onclick = completeEdit();
+		//if you want to keep public, explicitly set password to ""
+		pwdBtnPublic.onclick = publicGn(initCoords.xcoord,initCoords.ycoord,"");
+		if (textInputPassword) {
+			//this works because the truthiness of strings in Javascriprt. Both true and defined.
+			pwdBtnOK.onclick = okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);
+		}
+	} else {
+		msgBtnOK.onclick = okFn;
+		msgBtnCancel.onclick = removePrompt();
+		pwdBtnSkip.onclick = completeEdit();
+	}
+	passwordDiv.style.display = "block";
+}
+
+//helper funciton that asks the user if they wish to change the password
+function editPasswordApproved(xcoord,ycoord,pw){
+	var payload = {};
+	payload["xcoord"] = xcoord;
+	payload["ycoord"] = ycoord;
+	//release the edit block on this tile via the query
+	payload["isBeingEdited"] = false;
+	//password is used as query field. No-leak pw check. Cannot bypass PW with POSTman to /edit
+	if (pw) {
+		payload["pw"] = pw;
+	}
+	else {
+		payload["pw"] = '';
+	}
+	//add svg to payload
+	payload["svg"] = svgMinPrepend + artToString() + platformToString() + svgAppend;
+	if (verboseDebugging){
+		console.log("Paylaod to server");
+		console.log(payload);
+	}
+	postRequest("/edit",payload,editSubmitCallback,postOnError,pw);
+	messageDiv.style.display = "none";
+	// end Mark's code
+	
+	// debug message
+	if (debugging) {
+		console.log("Submitted drawing and platform data to the server.");
+	}
+
+	//here is where the user is prompted for a new password
+	newPasswordPrompt(xcoord,ycoord,pw);
+}
 // end Mark's code
 
 // submit drawing and platform data to server
 function svgSubmitToServer(imgCanvas) {
 	handleShapeInProgress();
 	
-	// start Mark's code
+	// BELOW CODE MOVED TO HELPER FUNCTION ABOVE start Mark's code
 	//form payload request
-	var payload = {};
+	//var payload = {};
 	//fill out coordinate fields
-	payload["xcoord"] = xTile;
-	payload["ycoord"] = yTile;
+	//payload["xcoord"] = xTile;
+	//payload["ycoord"] = yTile;
 	// ### TO CHANGE: EVERYTHING CURRENTLY HAS NO PASSWORD
-	payload["pw"] = '';
+	//if reprompt password flag is set, ask user to re-enter password
+	if (repromptPassword){
+		//takes care of refreshing the prompt, etc. If fail once, add to message.
+		var initCoords = {};
+		initCoords.xcoord  = xTile;
+		initCoords.ycoord = yTile;
+		promptPWOnEdit(passWordReenterPrompt,initCoords);
+	}
+	//below commented code is moved to helper function directly above
+	/*payload["pw"] = '';
 	//add svg to payload
 	payload["svg"] = svgMinPrepend + artToString() + platformToString() + svgAppend;
 	if (verboseDebugging){
@@ -1829,7 +2039,7 @@ function svgSubmitToServer(imgCanvas) {
 	}
 	
 	// use message box to put up confirmation message
-	displayMessage("Your art has been added to the world.", doTileExit, doTileExit, false, true)
+	displayMessage("Your art has been added to the world.", doTileExit, doTileExit, false, true)*/
 }
 
 // start Mark's code
@@ -1903,7 +2113,12 @@ function svgLoadFromServer(xTile, yTile, password) {
 	payload["xcoord"] = xTile;
 	payload["ycoord"] = yTile;
 	// ### TO CHANGE: EVERYTHING CURRENTLY HAS NO PASSWORD
-	payload["pw"] = '';
+	if (password){
+		payload["pw"] = password;
+	}
+	else {p
+		payload["pw"] = '';
+	}
 	postRequest("/retrieve",payload,svgPullCallback,postOnError);
 	// end Mark's code
 

@@ -105,18 +105,33 @@ function isValidSvg(svgString){
 app.post('/edit',function(req,res){
 	var xcoord = parseInt(req.body.xcoord);
 	var ycoord = parseInt(req.body.ycoord);
-	var pw = req.body.pw;
+	//var graphic = req.body.graphic //UNCOMMENT LATER
+	var isBeingEdited;
+	if (req.body.isBeingEdited){
+		isBeingEdited = req.body.isBeingEdited;
+	}
+	else {
+		//if this value is assigned by a spoofed request it won't matter unless
+		//they know the password.
+		isBeingEdited = false;
+	}
+	var pw;
+	if (req.body.pw)
+	{
+		pw = req.body.pw;
+	}
+	else {
+		pw = "";
+	}
 	var rawSVG = req.body.svg;
 	//if tile coordinates are not a number or out of bounds, reject
 	if (!(Number.isInteger(xcoord)&&Number.isInteger(ycoord))){
 		res.status(511).send("Tile coordinates invalid or out of bounds.");
-		setEdited(xcoord,ycoord,false);
 		return;
 	}
 	//if SVG XML is invalid or contains non-functional groups (from perspective of game engine), reject
 	if (!isValidSvg(rawSVG)){
 		res.status(511).send("Invalid SVG string.");
-		setEdited(xcoord,ycoord,false);
 		return;
 	}
 	//parse out the groups. precondition verifies this is already well-formed
@@ -130,17 +145,18 @@ app.post('/edit',function(req,res){
 	insertDoc['ycoord'] = ycoord;
 	insertDoc['pw'] = pw;
 	insertDoc['svg'] = rawSVG;
+	insertDoc['isBeingEdited'] = isBeingEdited;
+	//insertDoc['graphic'] = graphic //UNCOMMENT LATER
 	var filter = {};
 	filter['xcoord'] = xcoord;
 	filter['ycoord'] = ycoord;
 	filter['pw'] = pw;
 	console.log(util.inspect(insertDoc,false,null));
-	setEdited(xcoord,ycoord,false);
 	MongoClient.connect(dbUrl,function(err,db){
 		//test for errors, pop out if there are errors present
 		assert.equal(null,err);
 		console.log("connected succesfully to server");
-		insertDocument(db,insertDoc,filter,res,insertCallback);
+		insertDocument(db,insertDoc,filter,res,insertCallback,insertDoc);
 	});
 });
 
@@ -192,7 +208,7 @@ var findDocument = function(db,query,req,res,callback,initCoords,setname){
 	fields.ycoord = 1;
 	fields.svg = 1;
 	fields.isBeingEdited = 1;
-	//fields.graphic = 1;
+	//fields.graphic = 1; //'UNEDIT THIS LATER'
 	collection.find(query,fields).toArray(function(err,docs){
 		//if error, pop
 		assert.equal(err,null);
@@ -554,9 +570,59 @@ app.post('/pwcheck',function(req,res){
 		assert.equal(null,err);
 		console.log("connected succesfully to server");
 		//perform lookup
-		findDocumentPW(db,initCoords,req,res,pwCheckCallback,initCoords);
+		findDocumentPW(db,args,req,res,pwCheckCallback,args);
 	});
 });
+
+/* This function is involved in setting a password for the first time. It is only
+   used wehen the password is set, not every time a user decides to keep a tile
+   edit-locked with a password.
+   {xcoord,ycoord,pw,newpw}
+*/
+app.post('/pwset',function(req,res){
+	//query on the old password as a password check
+	var args = {};
+	args.xcoord = req.body.xcoord;
+	args.ycoord = req.body.ycoord;
+	args.pw = req.body.pw;
+	//the set field will be the new password
+	setField.pw = req.body.newpw;
+	MongoClient.connect(dbUrl,function(err,db){
+		//test for errors, pop out if there are errors present
+		assert.equal(null,err);
+		console.log("connected succesfully to server");
+		//perform lookup
+		updatePw(db,args,setField,req,res,pwSetCallback,args);
+	});
+});
+
+//helper function updatePw filters database and changes applicable setFields 
+var updatePw = function(db,filter,setField,req,res,callback,args){
+	var collection = db.collection('tiles');
+	//insert the document
+	console.log("About to insert:");
+	console.log(util.inspect(insertDoc));
+	collection.update(filter,insertDoc,{upsert:true},function(err,result){
+		if (err === null){
+			console.log(util.inspect(result));
+			callback(db,res);
+		}
+		else {
+			console.log(err);
+			callback(db,res,err);
+		}
+	});
+}
+
+//callback function for password update
+var pwSetCallback(db,res,err){
+	if (err){
+		res.status(588).send(JSON.stringify(err));
+	}
+	else {
+		res.status(200).send();
+	}
+}
 
 /*this function checks to see if a cell is owned at all, or, if it is, is it currently being edited.
 If no docs are returned, then create a doc with the tile coordinates and 
