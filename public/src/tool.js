@@ -1966,6 +1966,10 @@ function pwUpdateError(){
 // initCoords similarly are present only to pass along to event-driven subfunctions.
 // these functions should include: messageDiv.style.display = "none";
 function displayPassword(msg, okFn, textInputPassword, initCoords) {
+	var pwdBtnOK = document.getElementById('pwdBtnOK');
+	var pwdBtnCancel = document.getElementById('pwdBtnCancel');
+	var pwdBtnSkip = document.getElementById('pwdBtnSkip');
+	var pwdBtnPublic = document.getElementById('pwdBtnSkip');
 	messageText.innerHTML = msg;
 	if (initCoords){
 		pwdBtnOK.onclick = okFn(initCoords.xcoord,initCoords.ycoord);
