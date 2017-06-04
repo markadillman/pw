@@ -1853,6 +1853,7 @@ function promptPWOnEdit(message,initCoords){
 }
 
 function editPWSubmit(xcoord,ycoord){
+	messageDiv.style.display = "none";
 	var payload = {};
 	payload.pw = document.getElementById("msgTextInput").value;
 	payload.x = xcoord;
