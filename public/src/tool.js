@@ -968,7 +968,9 @@ function passwordApproved(xTile,yTile,password){
 		console.log(yTile);
 		console.log(password);
 	}
+
 	svgLoadFromServer(xTile, yTile, password);
+
 	doLoadSurroundingsFromServer();
 	
 	
@@ -994,6 +996,10 @@ function passwordApproved(xTile,yTile,password){
 	if (debugging) {
 		console.log("Loaded editor for tile (" + xTile.toString() + ", " + yTile.toString() + ").");
 	}
+}
+
+function finalEditCallback(){
+
 }
 
 // exits from the currently edited avatar back into game mode
@@ -2052,6 +2058,17 @@ function svgSubmitToServer(imgCanvas) {
 // start Mark's code
 //HELPER FUNCTION TO HANDLE CALLBACK FROM SERVER LOAD
 function svgPullCallback(request){
+	//TONI'S BLOCK: MOVED DUE TO ASYNCH CALLBACK
+	
+	// debug message
+	if (debugging) {
+		console.log("Loaded drawing and platform data for tile (" + xTile + ", " + yTile + ") from the server.");
+	}
+	
+	// hide message box if not in the process of loading the page the first time
+	if (!loadingPage) {
+		messageDiv.style.display = "none";
+	}
 	//if response is received and in good order
 	if (request.readyState === 4){
 		if (request.status === 200){
@@ -2111,7 +2128,7 @@ function svgPullCallback(request){
 // load drawing and platform data from the server
 // call this from the svg init function
 // and from doTileEdit
-function svgLoadFromServer(xTile, yTile, password) {
+function svgLoadFromServer(xTile, yTile, password, callback) {
 	console.log("password pre retrieve");
 	console.log(password);
 	handleShapeInProgress();
@@ -2133,22 +2150,15 @@ function svgLoadFromServer(xTile, yTile, password) {
 		console.log("payload for retrieve:");
 		console.log(payload);
 	}
-	postRequest("/retrieve",payload,svgPullCallback,postOnError);
-	// end Mark's code
+	if (callback)
+	{
+		postRequest("/retrieve",payload,callback,postOnError);
 
-	// and/or use my helper function
-	//svgLoadFromString(theSVGDataString);
-	
-	// debug message
-	if (debugging) {
-		console.log("Loaded drawing and platform data for tile (" + xTile + ", " + yTile + ") from the server.");
+	} else {
+
+		postRequest("/retrieve",payload,svgPullCallback,postOnError);
+
 	}
-	
-	// hide message box if not in the process of loading the page the first time
-	if (!loadingPage) {
-		messageDiv.style.display = "none";
-	}
-	
 }
 
 // close out an in-progress shape first if an option selection changes

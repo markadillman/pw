@@ -580,10 +580,11 @@ function assetRender(assets){
 			console.log("svg string in text");
 			console.log(myGroupString);
 		}
+		//THIS CODE BLOCK IS IN CHARGE OF RENDERING THE BACKGROUND GRAPHICS
 		//generate a URL for this svg grouping
 		var blobSvg = new Blob([myGroupString],{type:"image/svg+xml;charset=utf-8"}),
 		domURL = self.URL || self.webkitURL || self,
-		url = domURL.createObjectURL(blobSvg),	// ### Mark - this and the 2 lines above have commas?
+		url = domURL.createObjectURL(blobSvg),	// ### Mark - this and the 2 lines above have commas? 
 		img = new Image;
 		//img.onload = function(){
 			if (verboseDebugging) {

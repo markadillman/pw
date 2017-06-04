@@ -375,11 +375,9 @@ app.post('/retrieve',function(req,res){
 		console.log("query in retrieve");
 		console.log(util.inspect(query));
 	}
-
 	else {
 		query['pw']="";
 		console.log("dere wud no pw so pw now");
-		console.log(query['pw']);
 	}
 	if (!(Number.isInteger(query['xcoord'])&&Number.isInteger(query['ycoord']))){
 		console.log("NOT A FUCKIN NUMBER FOR SOME REASON. THE QUERY M'LORD:");
@@ -392,6 +390,8 @@ app.post('/retrieve',function(req,res){
 		assert.equal(null,err);
 		console.log("connected succesfully to server");
 		//perform lookup
+		console.log("rye b4 query");
+		console.log(util.inspect(query));
 		findDocument(db,query,req,res,findCallback);
 	});
 });
