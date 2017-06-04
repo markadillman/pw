@@ -671,7 +671,7 @@ app.post('/pwset',function(req,res){
 	var args = {};
 	args.xcoord = req.body.xcoord;
 	args.ycoord = req.body.ycoord;
-	else if (req.body.pw)
+	if (req.body.pw)
 	{
 		args.pw = req.body.pw;
 	}
