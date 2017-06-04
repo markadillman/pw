@@ -2120,6 +2120,9 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 			},false); 
 		//if you want to keep public, explicitly set password to ""
 		pwdBtnPublic.addEventListener('click',function clicked6(){
+			if (verboseDebugging){
+				console.log("pwdBtnPublic pressed");
+			}
 			this.removeEventListener('click',clicked6,false);
 			//no pw argument will auto 
 			submitNewPassword(initCoords.xcoord,initCoords.ycoord,null,textInputPassword);

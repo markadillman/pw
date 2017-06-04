@@ -671,11 +671,14 @@ app.post('/pwset',function(req,res){
 	var args = {};
 	args.xcoord = req.body.xcoord;
 	args.ycoord = req.body.ycoord;
-	if (req.body.pw)
+	else if (req.body.pw)
 	{
 		args.pw = req.body.pw;
 	}
 	else {
+		args.pw = '';
+	}
+	if (args.pw === null || args.pw === undefined){
 		args.pw = '';
 	}
 	//the set field will be the new password
