@@ -954,7 +954,7 @@ function passwordResponse(request,pw){
 function passwordApproved(xTile,yTile,password){
 	// clear out everything from drawing area just in case
 	svgClearAll();
-	if verboseDebugging{
+	if (verboseDebugging){
 		console.log("in pw approved");
 		console.log("x,y");
 		console.log(xTile);
