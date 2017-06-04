@@ -2124,6 +2124,7 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 				console.log("pwdBtnPublic pressed");
 			}
 			this.removeEventListener('click',clicked6,false);
+			passwordDiv.style.display = "none";
 			//no pw argument will auto 
 			submitNewPassword(initCoords.xcoord,initCoords.ycoord,null,textInputPassword);
 			},false);
@@ -2141,6 +2142,7 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 			completeEdit();
 			},false);
 		pwdBtnPublic.addEventListener('click',function clicked6(){
+			passwordDiv.style.display = "none";
 			this.removeEventListener('click',clicked5,false);
 			},false);
 	}
