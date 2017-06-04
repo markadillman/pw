@@ -1924,17 +1924,13 @@ function completeEdit(){
 
 //companinon to complete edit, but informs of an error in edit submission.
 function editError(){
-	displayMessage("There has been an error submitting your art.\n
-		            Save your work locally and try again later.",
+	displayMessage("There has been an error submitting your art.\nSave your work locally and try again later.",
 		            removePrompt(),removePrompt(),false,false);
 }
 
 //this will inform that, due to a server error, no new password has been set. Edits still took.
 function pwUpdateError(){
-	displayMessage("There was an error updating the password. The previous\n
-					password will still be used to access the tile edit feature\n
-					and any edits you have made have been saved. Try to reset\n
-					the password for this tile again later", removePrompt(),
+	displayMessage("There was an error updating the password. The previous\npassword will still be used to access the tile edit feature\nand any edits you have made have been saved. Try to reset\nthe password for this tile again later", removePrompt(),
 					removePrompt(),false,false);
 }
 
