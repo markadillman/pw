@@ -2044,14 +2044,10 @@ function editPasswordApproved(xcoord,ycoord,pw){
 		if (verboseDebugging){
 			console.log("had a password.");
 		}
-		payload["pw"] = pw;
+		payload.pw = pw;
 	}
 	else {
-		payload["pw"] = "";
-		if (verboseDebugging){
-			console.log("didnt haz pw. it is now:");
-			console.log(payload[pw]);
-		}
+		payload["pw"] = '';
 	}
 	//add svg to payload
 	payload["svg"] = svgMinPrepend + artToString() + platformToString() + svgAppend;
@@ -2059,7 +2055,16 @@ function editPasswordApproved(xcoord,ycoord,pw){
 		console.log("Paylaod to server");
 		console.log(payload);
 	}
-	postRequest("/edit",payload,editSubmitCallback,postOnError,payload.pw);
+	if (verboseDebugging){
+		console.log("pw in the payload is:");
+		console.log(payload.pw);
+	}
+	if (pw){
+		postRequest("/edit",payload,editSubmitCallback,postOnError,pw);
+	}
+	else {
+		postRequest("/edit",payload,editSubmitCallback,postOnError);
+	}
 }
 // end Mark's code
 
@@ -2085,7 +2090,7 @@ function svgSubmitToServer(imgCanvas) {
 		promptPWOnEdit(passWordReenterPrompt,initCoords);
 	}
 	else {
-		editPasswordApproved(xTile,yTile,'');
+		editPasswordApproved(xTile,yTile);
 	}
 	//below commented code is moved to helper function directly above
 	/*payload["pw"] = '';
