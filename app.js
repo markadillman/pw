@@ -606,7 +606,7 @@ app.post('/pwcheck',function(req,res){
 	var args = {};
 	args.xcoord = req.body.x;
 	args.ycoord = req.body.y;
-	args.pw = req.body.x;
+	args.pw = req.body.pw;
 	MongoClient.connect(dbUrl,function(err,db){
 		//test for errors, pop out if there are errors present
 		assert.equal(null,err);
