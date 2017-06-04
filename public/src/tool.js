@@ -2076,7 +2076,7 @@ function svgPullCallback(request){
 			//trim open square bracket
 			var properParseText = request.responseText.substring(1);
 			//trim close square bracket
-			properParseText = properParseText.substring(0,str.length-1);
+			properParseText = properParseText.substring(0,properParseText.length-1);
 			console.log("this being parsed:");
 			console.log(properParseText);
 			body = JSON.parse(properParseText);
