@@ -1849,6 +1849,10 @@ function editSubmitCallback(request,pw){
 //format: {xcoord:x,ycoord:y}
 function promptPWOnEdit(message,initCoords){
 	//prompt the user to reenter password
+	if (verboseDebugging){
+		console.log("password prompt message:");
+
+	}
 	displayMessage(message,editPWSubmit,removePrompt,true,true,initCoords);
 }
 
@@ -1897,7 +1901,10 @@ function removePrompt(){
 
 //newPasswordPrompt displays a messsage and handles a new password field
 function newPasswordPrompt(xcoord,ycoord,pw){
-
+	if (verboseDebugging){
+		console.log("we in new pw prompt nao");
+	}
+	messageDiv.style.display = "none";
 	//Gather prompt arguments and pass them along to handler.
 	var initCoords = {};
 	initCoords.xcoord = xcoord;
@@ -1914,11 +1921,21 @@ function checkPasswordMatch(xcoord,ycoord,pw){
 	messageDiv.style.display = "none";
 	var firstPass = document.getElementById('firstPassword').value;
 	var secondPass = document.getElementById('secondPassword').value;
-
+	if (verboseDebugging){
+		console.log("first pass value:");
+		console.log(firstPass);
+		console.log("second pass value:");
+		console.log(secondPass);
+		console.log("pw arg:");
+		console.log(pw);
+	}
 	if (firstPass === secondPass){
 		submitNewPassword(xcoord,ycoord,pw,firstPass);
 	}
 	else {
+		var initCoords = {};
+		initCoords.xcoord = xcoord;
+		initCoords.ycoord = ycoord;
 		displayPassword("The passwords you entered did not match.\nIf you wish to set a new password, enter it and confirm.\nIf you wish to keep the previous password, press Don't Change\nIf you wish to keep the tile public, press Make Public"
 		   , checkPasswordMatch, pw ,initCoords);
 	}
