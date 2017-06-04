@@ -1291,7 +1291,7 @@ function surroundingEyeDropper(evt) {
 
 var xTile = 0;					// x-coord of tile
 var yTile = 0;					// y-coord of tile
-var password = "12345";			// user-entered password string for tile
+//var password = "12345";			// user-entered password string for tile ??? MARK had a question about this
 var svgFileHeader = "<!--FROM THE BLANK--\>";	// for generated files
 var loadingPage = true;			// flag to mark initial page loading
 var masking = false;			// toggle the platform masking tools

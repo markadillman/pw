@@ -586,9 +586,8 @@ function assetRender(assets){
 		domURL = self.URL || self.webkitURL || self,
 		url = domURL.createObjectURL(blobSvg),	// ### Mark - this and the 2 lines above have commas? 
 		img = new Image;
-		//img.onload = function(){
-			if (verboseDebugging) {
-				console.log("asset url");
+		if (verboseDebugging) {
+			console.log("asset url");
 				console.log(url);
 			}
 			//adjust coordinates
