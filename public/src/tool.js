@@ -1885,10 +1885,7 @@ function checkPasswordMatch(xcoord,ycoord,pw){
 		submitNewPassword(xcoord,ycoord,pw,firstPass);
 	}
 	else {
-		displayPassword("The passwords you entered did not match.\n
-		   If you wish to set a new password, enter it and confirm.\n
-		   If you wish to keep the previous password, press Don't Change\n
-		   If you wish to keep the tile public, press Make Public"
+		displayPassword("The passwords you entered did not match.\nIf you wish to set a new password, enter it and confirm.\nIf you wish to keep the previous password, press Don't Change\nIf you wish to keep the tile public, press Make Public"
 		   , checkPasswordMatch, pw ,initCoords);
 	}
 }
