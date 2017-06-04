@@ -2151,8 +2151,8 @@ function editPasswordApproved(xcoord,ycoord,pw){
 		payload["ycoord"] = ycoord;
 	}
 	else {
-		payload["xcoord"] = XTile;
-		payload["ycoord"] = YTile;
+		payload["xcoord"] = xTile;
+		payload["ycoord"] = yTile;
 	}
 	//release the edit block on this tile via the query
 	payload["isBeingEdited"] = false;
