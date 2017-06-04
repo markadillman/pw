@@ -2112,15 +2112,17 @@ function svgPullCallback(request){
 				console.log("Working String:");
 				console.log(body.svg);
 			}
-			var parseString = svgMinPrepend + body.svg + svgAppend;
-			/*var parser = new DOMParser();
-			var xmlDoc = parser.parseFromString(parseString,"text/xml");
-			var dg = xmlDoc.getElementById("drawingGroup");
-			var pg = xmlDoc.getElementById("platformsGroup");
-			console.log(dg);
-			console.log(pg);*/
-			svgLoadFromString(parseString);
 
+			if (body.svg){
+				var parseString = svgMinPrepend + body.svg + svgAppend;
+				/*var parser = new DOMParser();
+				var xmlDoc = parser.parseFromString(parseString,"text/xml");
+				var dg = xmlDoc.getElementById("drawingGroup");
+				var pg = xmlDoc.getElementById("platformsGroup");
+				console.log(dg);
+				console.log(pg);*/
+				svgLoadFromString(parseString);
+			}
 		} else if (request.status === 242){
 			if (verboseDebugging) {
 				console.log("fresh tile.");
