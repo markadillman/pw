@@ -1965,7 +1965,7 @@ function editPWResponse(request,pw){
 		displayMessage(repromptPassword,editPWSubmit,removePrompt,true,true,initCoords);
 	}
 	//else password is confirmed. Note that 242 is success because tile is being edited.
-	else if (request.status === 242){
+	else if (request.status === 224){
 		if (verboseDebugging){
 			console.log("Password correct. Moving to edit.");
 		}
