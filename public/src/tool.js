@@ -690,7 +690,7 @@ function displayMessage(msg, okFn, cancelFn, useTextInput, textInputPassword, in
 	messageText.innerHTML = msg;
 	if (initCoords){
 		msgBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord);});
-		msgBtnCancel.addEventListener('click',function(){cancelFn()});
+		msgBtnCancel.addEventListener('click',function(){cancelFn();});
 		if (textInputPassword) {
 			//this works because the truthiness of strings in Javascriprt. Both true and defined.
 			msgBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);}; 
