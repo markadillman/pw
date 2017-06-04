@@ -1810,10 +1810,17 @@ function editSubmitCallback(request){
 	if (request.readyState === 4){
 		if (request.status === 200) {
 			if (verboseDebugging) {
-				console.log(request.responseText);
+				console.log(request.responseText);					
+				// debug message
+				if (debugging) {
+					console.log("Submitted drawing and platform data to the server.");
+				}
+				//here is where the user is prompted for a new password
+				newPasswordPrompt(xcoord,ycoord,pw);
 			}
 		} else {
 			if (verboseDebugging) {
+				editError();
 				console.error(request.statusText);
 			}
 		}
@@ -1985,16 +1992,6 @@ function editPasswordApproved(xcoord,ycoord,pw){
 		console.log(payload);
 	}
 	postRequest("/edit",payload,editSubmitCallback,postOnError,pw);
-	messageDiv.style.display = "none";
-	// end Mark's code
-	
-	// debug message
-	if (debugging) {
-		console.log("Submitted drawing and platform data to the server.");
-	}
-
-	//here is where the user is prompted for a new password
-	newPasswordPrompt(xcoord,ycoord,pw);
 }
 // end Mark's code
 
