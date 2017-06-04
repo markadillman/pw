@@ -628,8 +628,7 @@ app.post('/pwset',function(req,res){
 	args.ycoord = req.body.ycoord;
 	args.pw = req.body.pw;
 	//the set field will be the new password
-	var setField = {};
-	setField.pw = req.body.newpw;
+	var setField = {$set : {pw : req.body.newpw}};
 	MongoClient.connect(dbUrl,function(err,db){
 		//test for errors, pop out if there are errors present
 		assert.equal(null,err);
