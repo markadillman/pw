@@ -108,6 +108,25 @@ var svgAppend = "</svg>";
 //this variable tracks whether password reprompt at edit submit is necessary
 var passwordReprompt = false;
 const passwordReenterPrompt = "Please re-enter your tile's password to submit your edits.";
+//this will contain references to all specific button event listeners
+var eventListenerMsgBtnOK;
+var eventListenerMsgBtnCancel;
+var eventListenerPwdBtnOk;
+var eventListenerPwdBtnSkip;
+var eventListenerPwdBtnCancel;
+var eventListenerPwdBtnPublic;
+//this will allow removal of unknown, dynamic event listeners, 
+//adapted from code at http://stackoverflow.com/questions/8841138/remove-event-listener-in-java
+//credit to SO user TERMtm
+HTMLElement.prototype.eventListener = function(type, func, capture){
+	//a single object argument possessing the event listener will now remove that event listener
+	if(typeof arguments[0]== "object" && (!arguments[0].nodeType)){
+		return this.removeEventListener.apply(this,arguments[0]);
+	}
+	//regular add function
+	this.addEventListener(type,func,capture);
+	return arguments;
+}
 // end Mark's code
 
 // stop event propagation so forms don't actually submit
@@ -689,21 +708,27 @@ function doQuitToHomeScreen() {
 // a password protected field. Optional initCoords paramter to tie password
 // submissions to the correct tile.
 function displayMessage(msg, okFn, cancelFn, useTextInput, textInputPassword, initCoords) {
+	removeEventListeners();
 	messageText.innerHTML = msg;
-	if (initCoords){
-		msgBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord);});
-		msgBtnCancel.addEventListener('click',function(){cancelFn();});
-		if (textInputPassword) {
-			//this works because the truthiness of strings in Javascriprt. Both true and defined.
-			msgBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);}); 
-		}
-	} else
+	if (initCoords&&textInputPassword){
+		//this works because the truthiness of strings in Javascriprt. Both true and defined.
+		eventListenerMsgBtnOK = msgBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);}); 
+		eventListenerMsgBtnCancel = msgBtnCancel.addEventListener('click',function(){cancelFn();});
+	}
+	else if (initCoords) {
+		eventListenerMsgBtnOK = msgBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord);});
+		eventListenerMsgBtnCancel = msgBtnCancel.addEventListener('click',function(){cancelFn();});
+	}
+	else
 	{
-		msgBtnOK.addEventListener('click',function(){okFn();});
-		msgBtnCancel.addEventListener('click',function(){cancelFn();});
+		eventListenerMsgBtnOK = msgBtnOK.addEventListener('click',function(){okFn();});
+		eventListenerMsgBtnCancel = msgBtnCancel.addEventListener('click',function(){cancelFn();});
 	}
 	if (useTextInput) { // show the text input element
 		if (textInputPassword === true){
+			if (verboseDebugging){
+				console.log("turning this field dadgum password, tell yu whut.");
+			}
 			//must be reverted in the ok and cancel functions. Reverts on refresh.
 			msgTextInput.style.type = "password";
 			msgTextInput.style.display = "block";
@@ -714,6 +739,24 @@ function displayMessage(msg, okFn, cancelFn, useTextInput, textInputPassword, in
 		msgTextInput.style.display = "none";
 	}
 	messageDiv.style.display = "block";
+}
+
+//MARK ADDED: This is a way to remove all event listeners from all buttons. This should be done
+//every time on the first line of displayMessage or displayPassword to avoid eventListeners from
+//accumulating.
+function removeEventListeners(){
+	var pwdBtnOK = document.getElementById('pwdBtnOK');
+	var pwdBtnSkip = document.getElementById('pwdBtnSkip');
+	var pwdBtnPublic = document.getElementById('pwdBtnPublic');
+	var pwdBtnCancel = document.getElementById('pwdBtnCancel');
+	//all nodes are gathered in reference-able variables. Now use the prototype that tracks them
+	//to remove all the event listeners regardless of what they are or what args they have.
+	msgBtnOK.eventListener(eventListenerMsgBtnOK);
+	msgBtnCancel.eventListener(eventListenerMsgBtnCancel);
+	pwdBtnOK.eventListener(eventListenerPwdBtnOk);
+	pwdBtnSkip.eventListener(eventListenerPwdBtnSkip);
+	pwdBtnCancel.eventListener(eventListenerPwdBtnCancel);
+	pwdBtnPublic.eventListener(eventListenerPwdBtnPublic);
 }
 
 // default handlers for message box buttons
@@ -944,7 +987,7 @@ function passwordResponse(request,pw,initCoords){
 		if (verboseDebugging){
 			console.log("Edit authorization failed: Currently being edited.");
 		}
-		
+
 		displayMessage(body.message,doTileExit,doTileExit,false);
 		return request.status;
 	}
@@ -2011,6 +2054,7 @@ function pwUpdateError(){
 // initCoords similarly are present only to pass along to event-driven subfunctions.
 // these functions should include: passwordDiv.style.display = "none";
 function displayPassword(msg, okFn, textInputPassword, initCoords) {
+	removeEventListeners();
 	messageDiv.style.display = "none";
 	var pwdBtnOK = document.getElementById('pwdBtnOK');
 	var pwdBtnCancel = document.getElementById('pwdBtnCancel');
