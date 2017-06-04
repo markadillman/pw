@@ -419,6 +419,8 @@ function initHTML() {
 
 	// set the background color for the message div
 	document.getElementById("messageFormatDiv").style.backgroundColor = bgroundColor;
+	//MARK ADDED THIS
+	document.getElementById("passwordFormatDiv").style.backgroundColor = bgroundColor;
 	
 	// set the default visibility of the message box div
 	messageDiv.style.display = "none";
@@ -1909,7 +1911,6 @@ function newPasswordPrompt(xcoord,ycoord,pw){
 
 //this is called first if new password is set
 function checkPasswordMatch(xcoord,ycoord,pw){
-
 	messageDiv.style.display = "none";
 	var firstPass = document.getElementById('firstPassword').value;
 	var secondPass = document.getElementById('secondPassword').value;
