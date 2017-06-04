@@ -1903,6 +1903,8 @@ function removePrompt(){
 function newPasswordPrompt(xcoord,ycoord,pw){
 	if (verboseDebugging){
 		console.log("we in new pw prompt nao");
+		console.log("pw is: ");
+		console.log(pw);
 	}
 	messageDiv.style.display = "none";
 	//Gather prompt arguments and pass them along to handler.
@@ -1994,6 +1996,10 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 	var pwdBtnSkip = document.getElementById('pwdBtnSkip');
 	var pwdBtnPublic = document.getElementById('pwdBtnSkip');
 	var passwordSetText = document.getElementById('pwdBtnSkip');
+	if (verboseDebugging){
+		console.log("this should be the old password");
+		console.log(textInputPassword);
+	}
 	messageText.innerHTML = msg;
 	if (initCoords){
 		pwdBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord);});
