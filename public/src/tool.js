@@ -959,7 +959,7 @@ function passwordApproved(xTile,yTile,password){
 		console.log("x,y,pw");
 		console.log(xTile);
 		console.log(yTile);
-		console.log(pw);
+		console.log(password);
 	}
 	svgLoadFromServer(xTile, yTile, password);
 	doLoadSurroundingsFromServer();
