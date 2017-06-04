@@ -573,13 +573,13 @@ var pwCheckCallback = function(db,req,res,docs,args){
 		//these logic checks will not be null after length is confirmed to be one
 		payload.xcoord = docs[0]['xcoord'];
 		payload.ycoord = docs[0]['ycoord'];
-		if (docs[0][isBeingEdited] === true){
+		if (docs[0]['isBeingEdited'] === true){
 			//notify of document being edited
 			payload.message = "This tile is currently being edited by another player.";
 			res.status(242).send(JSON.stringify(payload));
 		}
 		//if password matches, send approval to edit
-		else if (!(docs[0][pw] === '')){
+		else if (!(docs[0]['pw'] === '')){
 			payload.message = "Passwords match.";
 			res.status(224).send(JSON.stringify(payload));
 		}
@@ -587,8 +587,8 @@ var pwCheckCallback = function(db,req,res,docs,args){
 		//in password check middleware.
 		else {
 			payload.message = "The password does not match.";
-			payload.xcoord = docs[0][xcoord];
-			payload.ycoord = docs[0][ycoord];
+			payload.xcoord = docs[0]['xcoord'];
+			payload.ycoord = docs[0]['ycoord'];
 			res.status(299).send(JSON.stringify(payload));
 		}
 	}
