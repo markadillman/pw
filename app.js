@@ -615,7 +615,7 @@ var updatePw = function(db,filter,setField,req,res,callback,args){
 }
 
 //callback function for password update
-var pwSetCallback(db,res,err){
+var pwSetCallback = function (db,res,err){
 	if (err){
 		res.status(588).send(JSON.stringify(err));
 	}
