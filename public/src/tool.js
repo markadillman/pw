@@ -1973,21 +1973,21 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 	var pwdBtnPublic = document.getElementById('pwdBtnSkip');
 	messageText.innerHTML = msg;
 	if (initCoords){
-		pwdBtnOK.onclick = okFn(initCoords.xcoord,initCoords.ycoord);
+		pwdBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord);});
 		//if you cancel, you will go back to teh editing screen
-		pwdBtnCancel.onclick = removePrompt();
+		pwdBtnCancel.addEventListener('click',function(){removePrompt();});
 		//if you want to keep the same password, you are done editing. back to gameplay.
-		pwdBtnSkip.onclick = completeEdit();
+		pwdBtnSkip.addEventListener('click',function(){completeEdit();}); 
 		//if you want to keep public, explicitly set password to ""
-		pwdBtnPublic.onclick = okFn(initCoords.xcoord,initCoords.ycoord,"");
+		pwdBtnPublic.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord,"");});
 		if (textInputPassword) {
 			//this works because the truthiness of strings in Javascriprt. Both true and defined.
-			pwdBtnOK.onclick = okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);
+			pwdBtnOK.addEventListener('click',function(){okFn(initCoords.xcoord,initCoords.ycoord,textInputPassword);}); 
 		}
 	} else {
 		msgBtnOK.onclick = okFn;
-		msgBtnCancel.onclick = removePrompt();
-		pwdBtnSkip.onclick = completeEdit();
+		msgBtnCancel.onclick = removePrompt;
+		pwdBtnSkip.onclick = completeEdit;
 	}
 	passwordDiv.style.display = "block";
 }
