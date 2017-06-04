@@ -275,10 +275,12 @@ var findCallback = function(db,req,res,docs,initCoords){
 
 //helper function to adjust the editing status of a tile with coordinates
 var setEdited = function(xcoord,ycoord,editStatus){
-	var insertDoc = {isBeingEdited : editStatus};
+	var insertDoc = {$set : {isBeingEdited : editStatus}};
 	var filter = {};
 	filter.xcoord = xcoord;
 	filter.ycoord = ycoord;
+	console.log("edit status filter");
+	console.log(util.inspect(filter));
 	MongoClient.connect(dbUrl,function(err,db){
 		//test for errors, pop out if there are errors present
 		assert.equal(null,err);
@@ -288,7 +290,7 @@ var setEdited = function(xcoord,ycoord,editStatus){
 		//insert the document
 		console.log("About to update edit:");
 		console.log(util.inspect(insertDoc));
-		collection.update(filter,insertDoc,{upsert:true},function(err,result){
+		collection.update(filter,insertDoc,{upsert:false},function(err,result){
 			if (err === null){
 				console.log("Updated editing status");
 				console.log(result);
