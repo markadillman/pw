@@ -497,7 +497,7 @@ var editCheckCallback = function(db,req,res,docs,initCoords){
 		var coords = {};
 		coords.xcoord = initCoords.x;
 		coords.ycoord = initCoords.y;
-		newTile.pw = '';
+		newTile.pw = "";
 		newTile.isBeingEdited = true;
 		//add it to the db
 		insertDocumentNoCallback(db,newTile,coords,res);
@@ -514,18 +514,20 @@ var editCheckCallback = function(db,req,res,docs,initCoords){
 		//these logic checks will not be null after length is confirmed to be one
 		if (docs[0][isBeingEdited] === true){
 			//notify of document being edited
+			console.log("schtuff dun gettin edited");
 			payload.message = "This tile is currently being edited by another player.";
 			res.status(242).send(JSON.stringify(payload));
-
 		}
 		//if password is blank, send an approval to edit
-		else if (!(docs[0][pw] === '')){
+		else if (docs[0][pw] === ''){
+			console.log("no dadgum password man, go hed");
 			payload.message = "No password set on this tile: edit OK.";
 			res.status(224).send(JSON.stringify(payload));
 		}
 		//else password is set. Tell client to collect user password and compare
 		//in password check middleware.
 		else {
+			console.log("we in the realm of the password check.");
 			payload.message = "Please enter the password for this tile to begin editing.";
 			payload.xcoord = docs[0][xcoord];
 			payload.ycoord = docs[0][ycoord];
