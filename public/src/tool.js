@@ -1847,7 +1847,7 @@ function editSubmitCallback(request,pw){
 //format: {xcoord:x,ycoord:y}
 function promptPWOnEdit(message,initCoords){
 	//prompt the user to reenter password
-	displayMessage(message,editPWCSubmit,removePrompt,true,true,initCoords);
+	displayMessage(message,editPWSubmit,removePrompt,true,true,initCoords);
 }
 
 function editPWSubmit(xcoord,ycoord){
@@ -1855,6 +1855,10 @@ function editPWSubmit(xcoord,ycoord){
 	payload.pw = document.getElementById("msgTextInput").value;
 	payload.x = xcoord;
 	payload.y = ycoord;
+	if (verboseDebugging){
+		console.log("password check payload log");
+		console.log(payload);
+	}
 	postRequest('/pwcheck',payload,editPWResponse,postOnError,payload.pw);
 }
 
