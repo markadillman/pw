@@ -919,9 +919,14 @@ function tileEditCallback(request){
 function passwordSubmit(xcoord,ycoord){
 	var payload = {};
 	//gather password
-	payload.pw = document.getElementById("msgTextInput").value;
+	var field = document.getElementById('msgTextInput');
+	payload.pw = field.value;
 	payload.x = xcoord;
 	payload.y = ycoord;
+	if (verboseDebugging){
+		console.log("submittin what'n i think is the passwort");
+		console.log(payload);
+	}
 	postRequest('/pwcheck',payload,passwordResponse,postOnError,payload.pw);
 }
 
