@@ -1964,8 +1964,9 @@ function pwUpdateError(){
 // textInputPassword is an optional field that can contain a boolean or a submitted password to
 // pass along to a response button function.
 // initCoords similarly are present only to pass along to event-driven subfunctions.
-// these functions should include: messageDiv.style.display = "none";
+// these functions should include: passwordDiv.style.display = "none";
 function displayPassword(msg, okFn, textInputPassword, initCoords) {
+	messageDiv.style.display = "none";
 	var pwdBtnOK = document.getElementById('pwdBtnOK');
 	var pwdBtnCancel = document.getElementById('pwdBtnCancel');
 	var pwdBtnSkip = document.getElementById('pwdBtnSkip');
