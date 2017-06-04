@@ -212,10 +212,10 @@ var findDocument = function(db,query,req,res,callback,initCoords,setname){
 	collection.find(query,fields).toArray(function(err,docs){
 		//if error, pop
 		assert.equal(err,null);
-		//console.log("Found following records:");
-		//console.log(docs);
-		//console.log("Size of docs:");
-		//console.log(docs.length);
+		console.log("Found following records:");
+		console.log(docs);
+		console.log("Size of docs:");
+		console.log(docs.length);
 		if (initCoords && setname){
 			callback(db,req,res,docs,initCoords,setname);
 		}
@@ -260,9 +260,12 @@ var findCallback = function(db,req,res,docs,initCoords){
 		setEdited(xcoord,ycoord,true);
 		//construct header
 		res.setHeader('Content-Type','application/json');
+		console.log("shippin out some troublin docs.");
 		console.log(util.inspect(docs));
+		console.log("docs array accessor");
+		console.log(util.inspect(docs[0]));
 		res.status(200);
-		res.status(200).send(JSON.stringify(docs[0]));
+		res.status(200).send(JSON.stringify(docs));
 	}
 	else if (docs.length === 0) {
 		res.status(242).send("No coordinate / password matches found.");
