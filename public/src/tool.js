@@ -2013,6 +2013,9 @@ function svgSubmitToServer(imgCanvas) {
 		initCoords.ycoord = yTile;
 		promptPWOnEdit(passWordReenterPrompt,initCoords);
 	}
+	else {
+		editPasswordApproved(xTile,yTile,'');
+	}
 	//below commented code is moved to helper function directly above
 	/*payload["pw"] = '';
 	//add svg to payload
