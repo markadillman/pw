@@ -352,9 +352,12 @@ app.post('/retrieve',function(req,res){
 		query['pw'] = req.body.pw;
 		console.log("pw in da body");
 		console.log(req.body.pw);
+		console.log("query in retrieve");
+		console.log(util.inspect(query));
 	}
+	
 	else {
-		query['pw']='';
+		query['pw']="";
 		console.log("dere wud no pw so pw now");
 		console.log(query['pw']);
 	}
