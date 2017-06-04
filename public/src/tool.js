@@ -1962,7 +1962,7 @@ function editPWResponse(request,pw){
 		initCoords.xcoord = body.xcoord;
 		initCoords.ycoord = body.ycoord;
 		//
-		displayMessage(repromptPassword,passwordSubmit,removePrompt,true,true,initCoords);
+		displayMessage(repromptPassword,editPWSubmit,removePrompt,true,true,initCoords);
 	}
 	//else password is confirmed. Note that 242 is success because tile is being edited.
 	else if (request.status === 242){
