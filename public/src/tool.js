@@ -954,7 +954,12 @@ function passwordResponse(request,pw){
 function passwordApproved(xTile,yTile,password){
 	// clear out everything from drawing area just in case
 	svgClearAll();
-
+	if verboseDebugging{
+		console.log("in pw approved");
+		console.log("x,y");
+		console.log(xTile);
+		console.log(yTile);
+	}
 	svgLoadFromServer(xTile, yTile, password);
 	doLoadSurroundingsFromServer();
 	
@@ -1843,7 +1848,7 @@ function editPWResponse(request,pw){
 		initCoords.xcoord = body.xcoord;
 		initCoords.ycoord = body.ycoord;
 		//
-		displayMessage(repromptPassword,passwordSubmit,doTileExit,true,true,initCoords);
+		displayMessage(repromptPassword,passwordSubmit,removePrompt,true,true,initCoords);
 	}
 	//else password is confirmed. Note that 242 is success because tile is being edited.
 	else if (request.status === 242){
