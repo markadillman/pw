@@ -1887,11 +1887,10 @@ function checkPasswordMatch(xcoord,ycoord,pw){
 	else {
 		displayPassword("The passwords you entered did not match.\n
 		   If you wish to set a new password, enter it and confirm.\n
-		   If you wish to keep the previous password, press 'Don't Change'\n
-		   If you wish to keep the tile public, press 'Make Public"
+		   If you wish to keep the previous password, press Don't Change\n
+		   If you wish to keep the tile public, press Make Public"
 		   , checkPasswordMatch, pw ,initCoords);
 	}
-
 }
 
 //follows checkPasswordMatch if user chooses to set a new password, otherwise it is first
