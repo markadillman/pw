@@ -233,14 +233,15 @@ var findDocument = function(db,query,req,res,callback,initCoords,setname){
 //overloading that could cause leaks.
 var findDocumentPW = function(db,query,req,res,callback,initCoords,setname){
 	var collection = db.collection('tiles');
+	console.log("this query gon return passwords:");
 	console.log(util.inspect(query));
 	collection.find(query).toArray(function(err,docs){
 		//if error, pop
 		assert.equal(err,null);
-		//console.log("Found following records:");
-		//console.log(docs);
-		//console.log("Size of docs:");
-		//console.log(docs.length);
+		console.log("Found following records:");
+		console.log(docs);
+		console.log("Size of docs:");
+		console.log(docs.length);
 		if (initCoords && setname){
 			callback(db,req,res,docs,initCoords,setname);
 		}
