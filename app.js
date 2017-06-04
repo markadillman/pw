@@ -173,15 +173,19 @@ var insertDocument = function(db,insertDoc,filter,res,callback){
 		else {
 			console.log(err);
 		}
-		callback(db,res);
+		callback(db,res,insertDoc);
 	});
 }
 
 
-var insertCallback = function(db,res){
+var insertCallback = function(db,res,docs,initCoords){
 	console.log("in callback");
 	db.close();
-	res.sendStatus(200);
+	var sendCoords = {};
+	sendCoords.xcoord = initCoords.xcoord;
+	sendCoords.ycoord = initCoords.ycoord;
+	console.log();
+	res.sendStatus(200).send(JSON.stringify(sendCoords));
 }
 
 var insertDocumentNoCallback = function(db,insertDoc,filter,res){
@@ -197,6 +201,7 @@ var insertDocumentNoCallback = function(db,insertDoc,filter,res){
 		else {
 			console.log(err);
 		}
+		db.close();
 	});
 }
 
@@ -286,6 +291,10 @@ var findCallback = function(db,req,res,docs,initCoords){
 
 //helper function to adjust the editing status of a tile with coordinates
 var setEdited = function(xcoord,ycoord,editStatus){
+	//if any coordinates are not legit, exit the function
+	if ((xcoord === null || xcoord === undefined)|| (ycoord === null || ycoord === undefined)){
+		return;
+	}
 	var insertDoc = {$set : {isBeingEdited : editStatus}};
 	var filter = {};
 	filter.xcoord = xcoord;

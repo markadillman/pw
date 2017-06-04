@@ -1806,7 +1806,10 @@ function svgLoadFromLocal() {
 
 // start Mark's code
 //HELPER CALLBACK FUNCTION TO SERVER SUBMIT
-function editSubmitCallback(request){
+function editSubmitCallback(request,pw){
+	var body = JSON.parse(request.responseText);
+	tempXcoord = body.xcoord;
+	tempYcoord = body.ycoord;
 	if (request.readyState === 4){
 		if (request.status === 200) {
 			if (verboseDebugging) {
@@ -1816,7 +1819,7 @@ function editSubmitCallback(request){
 					console.log("Submitted drawing and platform data to the server.");
 				}
 				//here is where the user is prompted for a new password
-				newPasswordPrompt(xcoord,ycoord,pw);
+				newPasswordPrompt(tempXcoord,tempYcoord,pw);
 			}
 		} else {
 			if (verboseDebugging) {
