@@ -382,6 +382,8 @@ app.post('/retrieve',function(req,res){
 		console.log(query['pw']);
 	}
 	if (!(Number.isInteger(query['xcoord'])&&Number.isInteger(query['ycoord']))){
+		console.log("NOT A FUCKIN NUMBER FOR SOME REASON. THE QUERY M'LORD:");
+		console.log(util.inspect(query));
 		res.status(527).send("Tile coordinates invalid or out of bounds.");
 		return;
 	}
