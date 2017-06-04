@@ -705,7 +705,7 @@ function displayMessage(msg, okFn, cancelFn, useTextInput, textInputPassword, in
 	if (useTextInput) { // show the text input element
 		if (textInputPassword === true){
 			//must be reverted in the ok and cancel functions. Reverts on refresh.
-			msgTextInput.style.type = password;
+			msgTextInput.style.type = 'password';
 		} else {
 			msgTextInput.style.display = "block";
 		}
