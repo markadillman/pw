@@ -2031,7 +2031,15 @@ function submitNewPassword(xcoord,ycoord,pw,newpw){
 	var payload = {};
 	payload.xcoord = xcoord;
 	payload.ycoord = ycoord;
-	payload.pw = pw;
+	if (!(pw===null) && !(pw===undefined)){
+			payload.pw = pw;
+	}
+	else {
+		payload.pw = '';
+	}
+	if (!(newpw===null) && !(newpw===undefined)){
+		payload.newpw = '';
+	}
 	payload.newpw = newpw;
 	postRequest('/pwset',payload,submitNewPwPost,postOnError);
 }
@@ -2100,7 +2108,7 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 				okFn(initCoords.xcoord,initCoords.ycoord);
 			},false);
 		}
-		//if you cancel, you will go back to teh editing screen
+		//if you cancel, you will go back to the editing screen
 		pwdBtnCancel.addEventListener('click',function clicked4(){
 			this.removeEventListener('click',clicked4,false);
 			removePrompt();
@@ -2113,13 +2121,13 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 		//if you want to keep public, explicitly set password to ""
 		pwdBtnPublic.addEventListener('click',function clicked6(){
 			this.removeEventListener('click',clicked6,false);
-			okFn(initCoords.xcoord,initCoords.ycoord,"");
+			//no pw argument will auto 
+			submitNewPassword(initCoords.xcoord,initCoords.ycoord,null,textInputPassword);
 			},false);
 	} else {
 		//should never get here but must be present to remove a borked event listener
 		msgBtnOK.addEventListener('click',function clicked3(){
 			this.removeEventListener('click',clicked3,false);
-			okFn();
 			},false);
 		msgBtnCancel.addEventListener('click',function clicked4(){
 			this.removeEventListener('click',clicked4,false);
@@ -2131,7 +2139,6 @@ function displayPassword(msg, okFn, textInputPassword, initCoords) {
 			},false);
 		pwdBtnPublic.addEventListener('click',function clicked6(){
 			this.removeEventListener('click',clicked5,false);
-			okFn(null,null,'');
 			},false);
 	}
 	passwordDiv.style.display = "block";
@@ -2176,6 +2183,8 @@ function editPasswordApproved(xcoord,ycoord,pw){
 		console.log("pw in the payload is:");
 		console.log(payload.pw);
 	}
+	//send various payloads. In further functions, the second request call will be
+	//adjusted to check for the default (public) password.
 	if (pw){
 		postRequest("/edit",payload,editSubmitCallback,postOnError,pw);
 	}
